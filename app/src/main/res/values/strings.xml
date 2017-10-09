@@ -1,3 +1,27 @@
 <resources>
     <string name="app_name">Frame</string>
+
+    <string name="msg_network_error">当前网络不可用，请检查网络设置</string>
+    <string name="msg_network_loading">加载中…</string>
+    <string name="msg_network_nothing">暂无数据</string>
+
+    <string name="image_select_folder_all">所有照片</string>
+    <string name="image_select_preview">预览</string>
+    <string name="image_select_msg_no_camera">没有系统相机</string>
+    <string name="image_select_msg_amount_limit">已经达到最高选择数量</string>
+    <string name="image_select_action_done">完成</string>
+    <string name="image_select_photo_unit">张</string>
+    <string name="image_select_tip_take_photo">拍摄照片</string>
+
+    <string name="pull_to_refresh">下拉刷新</string>
+    <string name="release_to_refresh">释放立即刷新</string>
+    <string name="refreshing">正在刷新&#8230;</string>
+    <string name="refresh_succeed">刷新成功</string>
+    <string name="refresh_fail">刷新失败</string>
+    <string name="pull_up_to_load">上拉加载更多</string>
+    <string name="release_to_load">释放立即加载</string>
+    <string name="loading">正在加载&#8230;</string>
+    <string name="load_succeed">加载成功</string>
+    <string name="load_fail">加载失败</string>
+
 </resources>

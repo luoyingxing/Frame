@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="actionBarSize">48dp</dimen>
+    <dimen name="status_bar_height">24dp</dimen>
+
+    <dimen name="tool_bar_expand_text_size">12dp</dimen>
+
+    <dimen name="image_select_image_size">120dp</dimen>
+    <dimen name="image_select_space_size">2dp</dimen>
+    <dimen name="image_select_folder_cover_size">72dp</dimen>
+
+</resources>

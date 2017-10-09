@@ -3,4 +3,36 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="theme_color">#FF4081</color>
+
+    <color name="white">#ffffffff</color>
+    <color name="black">#ff000000</color>
+    <color name="gray_21">#212121</color>
+    <color name="gray_33">#333333</color>
+    <color name="gray_66">#666666</color>
+    <color name="gray_70">#707070</color>
+    <color name="gray_72">#727272</color>
+    <color name="gray_80">#808080</color>
+    <color name="gray_a8">#a8a8a8</color>
+    <color name="gray_b8">#b8b8b8</color>
+    <color name="gray_da">#dadada</color>
+    <color name="gray_dc">#dcdcdc</color>
+    <color name="gray_f7">#f7f7f7</color>
+    <color name="gray_f1">#f1f1f1</color>
+    <color name="gray_ee">#eeeeee</color>
+    <color name="gray_e3">#e3e3e3</color>
+    <color name="gray_ed">#ededed</color>
+    <color name="gray_d8">#d8d8d8</color>
+    <color name="gray_d2">#d2d2d2</color>
+    <color name="sample_red">#ff5555</color>
+    <color name="sample_blue">#03a9e4</color>
+    <color name="sample_green">#7eb63d</color>
+    <color name="sample_orange">#ff9801</color>
+    <color name="sample_yellow">#dddd22</color>
+    <color name="sample_purple">#ba68c8</color>
+    <color name="sample_cyan">#00bec8</color>
+    <color name="deep_green">#2baf2b</color>
+
+    <color name="bg_loading_dialog">#30000000</color>
+
 </resources>
