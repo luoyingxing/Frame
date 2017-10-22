@@ -26,12 +26,9 @@ import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
 import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.lyx.frame.R;
+import com.lyx.frame.annotation.ImageUrl;
 import com.lyx.frame.slide.animator.TransFormFactory;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -480,14 +477,6 @@ public class SlideView<T> extends FrameLayout {
             }
         }
         return null;
-    }
-
-    /**
-     * 该注解用于标注泛型类实体中图片的地址字段
-     */
-    @Target(value = {ElementType.FIELD})
-    @Retention(RetentionPolicy.RUNTIME)
-    public @interface ImageUrl {
     }
 
     private Type getType() {

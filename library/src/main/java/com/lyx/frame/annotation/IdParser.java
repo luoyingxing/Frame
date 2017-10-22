@@ -1,22 +1,25 @@
-package com.lyx.sample.annotation;
+package com.lyx.frame.annotation;
 
 import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.view.View;
+
+import com.lyx.frame.exception.ParserException;
 
 import java.lang.reflect.Field;
 
 /**
  * IdParser
  * <p/>
- * Created by luoyingxing on 2017/6/2.
+ * author:  luoyingxing
+ * date: 2017/10/16.
  */
 public class IdParser {
 
     /**
-     * if it has been use in the activity, this method must be called in the OnCreate();
+     * if it has been use in the activity, this method at least called in the OnCreate();
      * <p>
-     * if it has been use in the fragment, this method must be called in the OnActivityCreate();
+     * if it has been use in the fragment, this method at least called in the onViewCreated();
      * <p>
      *
      * @param object Activity , fragment or view
@@ -37,9 +40,10 @@ public class IdParser {
         for (Field field : fields) {
             if (field.isAnnotationPresent(Id.class)) {
                 Id injectView = field.getAnnotation(Id.class);
-                int id = injectView.id();
-                boolean onTouch = injectView.onTouch();
-                boolean onClick = injectView.onClick();
+                int id = injectView.value();
+
+                boolean onTouch = field.isAnnotationPresent(OnTouch.class);
+                boolean onClick = field.isAnnotationPresent(OnClick.class);
 
                 if (id < 0) {
                     throw new ParserException("View id must not be null!");
