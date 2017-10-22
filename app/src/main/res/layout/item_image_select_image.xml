@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.lyx.frame.frame.select.view.SquareFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.lyx.sample.frame.select.view.SquareFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.lyx.frame.frame.select.view.SquaredImageView
+    <com.lyx.sample.frame.select.view.SquaredImageView
         android:id="@+id/sv_image_select"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -28,4 +28,4 @@
         android:contentDescription="@string/app_name"
         android:src="@mipmap/icon_image_select_normal" />
 
-</com.lyx.frame.frame.select.view.SquareFrameLayout>
+</com.lyx.sample.frame.select.view.SquareFrameLayout>
