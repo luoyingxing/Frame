@@ -62,7 +62,6 @@ public class BaseFragment extends HandleFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         mLog.v("onActivityCreated()");
         super.onActivityCreated(savedInstanceState);
-        initToolbar(getToolbar());
     }
 
     @Override
@@ -255,89 +254,4 @@ public class BaseFragment extends HandleFragment {
         return true;
     }
 
-    /**
-     * this method recall in onActivityCreated
-     *
-     * @param toolbar BaseToolBar
-     */
-    private void initToolbar(BaseToolBar toolbar) {
-        if (null != toolbar) {
-            mToolbar = toolbar;
-            mToolbar.init(this);
-        }
-    }
-
-    public void setLocationOnClickListener(View.OnClickListener listener) {
-        if (null != mToolbar) {
-            mToolbar.setLocationOnClickListener(listener);
-        }
-    }
-
-    public void showBackView(boolean show) {
-        if (null != mToolbar) {
-            mToolbar.showBackView(show);
-        }
-    }
-
-    public void setBackDrawable(Drawable drawable) {
-        if (null != mToolbar) {
-            mToolbar.setBackDrawable(drawable);
-        }
-    }
-
-    public void setBackResource(int resId) {
-        if (null != mToolbar) {
-            mToolbar.setBackResource(resId);
-        }
-    }
-
-    public void setTitle(CharSequence text) {
-        if (null != mToolbar) {
-            mToolbar.setTitle(text);
-        }
-    }
-
-    public void setTitleColor(int color) {
-        if (null != mToolbar) {
-            mToolbar.setTitleColor(color);
-        }
-    }
-
-    public void setRightText(CharSequence text) {
-        if (null != mToolbar) {
-            mToolbar.setRightText(text);
-        }
-    }
-
-    public TextView getRightTextView() {
-        return mToolbar.getRightTextView();
-    }
-
-    public void setRightImage(Drawable drawable) {
-        if (null != mToolbar) {
-            mToolbar.setRightImage(drawable);
-        }
-    }
-
-    public void setRightResource(int resId) {
-        if (null != mToolbar) {
-            mToolbar.setRightResource(resId);
-        }
-    }
-
-    public void setOnRightImageClickListener(View.OnClickListener listener) {
-        if (null != mToolbar) {
-            mToolbar.setOnRightImageListener(listener);
-        }
-    }
-
-    public void setOnRightTextClickListener(View.OnClickListener listener) {
-        if (null != mToolbar) {
-            mToolbar.setOnRightTextListener(listener);
-        }
-    }
-
-    public RelativeLayout getCenterLayout() {
-        return mToolbar.getCenterLayout();
-    }
 }

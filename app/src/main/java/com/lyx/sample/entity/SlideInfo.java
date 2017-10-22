@@ -1,6 +1,6 @@
 package com.lyx.sample.entity;
 
-import com.lyx.frame.slide.SlideView;
+import com.lyx.frame.annotation.ImageUrl;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import java.util.List;
 
 public class SlideInfo implements Serializable {
     private String id;
-    @SlideView.ImageUrl
+    @ImageUrl
     private String image;
     private String title;
 

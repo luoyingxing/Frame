@@ -6,8 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
-import com.lyx.sample.annotation.IdParser;
-import com.lyx.sample.frame.ui.view.BaseToolBar;
+import com.lyx.frame.annotation.IdParser;
 
 /**
  * HandleFragment
@@ -105,14 +104,4 @@ public abstract class HandleFragment extends Fragment {
     public void onRestart() {
     }
 
-    /**
-     * sub class must override this method,
-     * and return BaseToolBar,
-     * otherwise about BaseToolBar's method is invalid.
-     *
-     * @return BaseToolBar instance
-     */
-    public BaseToolBar getToolbar() {
-        return null;
-    }
 }

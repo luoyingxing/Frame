@@ -1,7 +1,8 @@
 package com.lyx.sample.utils;
 
 
-import com.lyx.sample.annotation.Renewal;
+
+import com.lyx.frame.annotation.Renewal;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;

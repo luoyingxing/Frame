@@ -4,13 +4,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.lyx.frame.annotation.Id;
+import com.lyx.frame.annotation.IdParser;
 import com.lyx.frame.slide.SlideView;
-import com.lyx.sample.annotation.Id;
-import com.lyx.sample.annotation.IdParser;
 import com.lyx.sample.entity.SlideInfo;
 
 public class MainActivity extends AppCompatActivity {
-    @Id(id = R.id.sv_home)
+    @Id(R.id.sv_home)
     private SlideView<SlideInfo> mSlideView;
 
     @Override
