@@ -8,6 +8,8 @@
         <attr name="dotFocus" format="reference" />
         <attr name="dotNormal" format="reference" />
         <attr name="placeHolderImage" format="reference" />
+        <attr name="textBackground" format="color" />
+        <attr name="textColor" format="color" />
     </declare-styleable>
 
 </resources>

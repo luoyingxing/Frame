@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.ColorRes;
 import android.support.annotation.IdRes;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -18,6 +19,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.drawable.ScalingUtils;
@@ -40,6 +42,14 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * SlideView
+ * 当图片数量超过一定数量时，底部样式将会切换成文字显示样式
+ * <p>
+ * 功能优点：
+ * -> 实现自动无限循环切换；
+ * -> 当图片数量小于2时，手动切换时，不会出现空白页面；
+ * -> 支持点击事件；
+ * -> 支持通过xml配置相关参数；
+ * -> 最重要的一点，支持泛型数据源，通过注解配置和反射机制实现轮播效果
  * <p/>
  * author:  luoyingxing
  * date: 2017/10/16.
@@ -47,6 +57,22 @@ import java.util.concurrent.TimeUnit;
 public class SlideView<T> extends FrameLayout {
     private Context mContext;
     private ViewPager mViewPager;
+    /**
+     * 超过图片最大数量，底部样式将智能切换成文字样式
+     */
+    private static final int MAX_COUNT = 10;
+    /**
+     * 决定于MAX_COUNT的值
+     */
+    private boolean mIsTextStyle;
+    /**
+     * 底部样式的背景
+     */
+    private int mTextBackground;
+    /**
+     * 底部样式的颜色
+     */
+    private int mTextColor;
     /**
      * 轮播图数量
      */
@@ -122,6 +148,9 @@ public class SlideView<T> extends FrameLayout {
 
         mPlaceHolderImage = array.getResourceId(R.styleable.SlideView_placeHolderImage, 0);
 
+        mTextBackground = array.getColor(R.styleable.SlideView_textBackground, 0x40000000);
+        mTextColor = array.getColor(R.styleable.SlideView_textColor, 0xFFFFFFFF);
+
         array.recycle();
     }
 
@@ -182,6 +211,28 @@ public class SlideView<T> extends FrameLayout {
     }
 
     /**
+     * 设置底部文字样式的背景颜色
+     *
+     * @param background ColorRes
+     * @return SlideView
+     */
+    public SlideView setTextBackground(@ColorRes int background) {
+        mTextBackground = background;
+        return this;
+    }
+
+    /**
+     * 设置底部文字样式的字体颜色
+     *
+     * @param color ColorRes
+     * @return SlideView
+     */
+    public SlideView setTextColor(@ColorRes int color) {
+        mTextColor = color;
+        return this;
+    }
+
+    /**
      * 初始化数据源
      *
      * @param dataSource 数据源
@@ -193,9 +244,12 @@ public class SlideView<T> extends FrameLayout {
 
         mSource = dataSource;
         mImageCount = mSource.size();
+        mIsTextStyle = mImageCount >= MAX_COUNT;
 
         initUI();
     }
+
+    private TextView mTextStyleTV;
 
     /**
      * 初始化视图中的各个组件
@@ -226,12 +280,14 @@ public class SlideView<T> extends FrameLayout {
             view.setTag(getImageUrl(mSource.get(i)));
             view.setOnClickListener(new OnItemListener(mSource.get(i), i));
             imageViewList.add(view);
-            ImageView dotView = new ImageView(mContext);
-            LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(24, 24);
-            param.leftMargin = 4;
-            param.rightMargin = 4;
-            linearLayout.addView(dotView, param);
-            dotViewList.add(dotView);
+            if (!mIsTextStyle) {
+                ImageView dotView = new ImageView(mContext);
+                LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(24, 24);
+                param.leftMargin = 4;
+                param.rightMargin = 4;
+                linearLayout.addView(dotView, param);
+                dotViewList.add(dotView);
+            }
         }
 
         //当图片数量为2时，将数量翻倍，避免滑动出现白屏
@@ -245,7 +301,22 @@ public class SlideView<T> extends FrameLayout {
         }
 
         relativeLayout.addView(mViewPager);
-        relativeLayout.addView(linearLayout);
+
+        if (mIsTextStyle) {
+            mTextStyleTV = new TextView(mContext);
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+            params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+            mTextStyleTV.setPadding(20, 12, 20, 12);
+            mTextStyleTV.setLayoutParams(params);
+            mTextStyleTV.setBackgroundColor(mTextBackground);
+            mTextStyleTV.setTextColor(mTextColor);
+            mTextStyleTV.setText("第1/" + mImageCount + "页");
+            mTextStyleTV.setGravity(Gravity.END | Gravity.CENTER_VERTICAL);
+            relativeLayout.addView(mTextStyleTV);
+        } else {
+            relativeLayout.addView(linearLayout);
+        }
+
         addView(relativeLayout);
 
         mViewPager.setFocusable(true);
@@ -377,11 +448,15 @@ public class SlideView<T> extends FrameLayout {
             mCurrentItem = position;
             position %= mImageCount;
 
-            for (int i = 0; i < list.size(); i++) {
-                if (i == position) {
-                    (list.get(position)).setBackgroundResource(mDotFocusId);
-                } else {
-                    (list.get(i)).setBackgroundResource(mDotNormalId);
+            if (mIsTextStyle) {
+                mTextStyleTV.setText("第" + (position + 1) + "/" + mImageCount + "页");
+            } else {
+                for (int i = 0; i < list.size(); i++) {
+                    if (i == position) {
+                        (list.get(position)).setBackgroundResource(mDotFocusId);
+                    } else {
+                        (list.get(i)).setBackgroundResource(mDotNormalId);
+                    }
                 }
             }
         }
