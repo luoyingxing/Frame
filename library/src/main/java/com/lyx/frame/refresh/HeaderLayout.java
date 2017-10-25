@@ -43,15 +43,15 @@ public class HeaderLayout extends RelativeLayout implements Header {
     }
 
     private void initView(Context context, AttributeSet attrs) {
-        TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.FooterLayout, 0, 0);
+        TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.HeaderLayout, 0, 0);
 
-        mTipInit = array.getString(R.styleable.FooterLayout_tip_init);
-        mTipPrepare = array.getString(R.styleable.FooterLayout_tip_prepare);
-        mTipLoading = array.getString(R.styleable.FooterLayout_tip_loading);
-        mTipFinish = array.getString(R.styleable.FooterLayout_tip_finish);
+        mTipInit = array.getString(R.styleable.HeaderLayout_tip_init);
+        mTipPrepare = array.getString(R.styleable.HeaderLayout_tip_prepare);
+        mTipLoading = array.getString(R.styleable.HeaderLayout_tip_loading);
+        mTipFinish = array.getString(R.styleable.HeaderLayout_tip_finish);
 
-        mArrowsUpId = array.getResourceId(R.styleable.FooterLayout_arrows_up, 0);
-        mArrowsDownId = array.getResourceId(R.styleable.FooterLayout_arrows_down, 0);
+        mArrowsUpId = array.getResourceId(R.styleable.HeaderLayout_arrows_up, 0);
+        mArrowsDownId = array.getResourceId(R.styleable.HeaderLayout_arrows_down, 0);
 
         if (TextUtils.isEmpty(mTipInit)) {
             mTipInit = getResources().getString(R.string.refresh_header_tip_init);
@@ -83,10 +83,10 @@ public class HeaderLayout extends RelativeLayout implements Header {
     public void onInit() {
         if (null == mOnStatusListener) {
             if (null != mPresenter) {
-                mPresenter.getTipTextView().setText(mTipInit);
-                mPresenter.getProgressBar().setVisibility(View.INVISIBLE);
-                mPresenter.getArrows().setVisibility(View.VISIBLE);
-                mPresenter.getArrows().setImageResource(mArrowsUpId);
+                mPresenter.getHeaderTipTextView().setText(mTipInit);
+                mPresenter.getHeaderProgressBar().setVisibility(View.INVISIBLE);
+                mPresenter.getHeaderArrows().setVisibility(View.VISIBLE);
+                mPresenter.getHeaderArrows().setImageResource(mArrowsDownId);
             }
         } else {
             mOnStatusListener.onInit();
@@ -97,8 +97,8 @@ public class HeaderLayout extends RelativeLayout implements Header {
     public void onPrepareToRefresh() {
         if (null == mOnStatusListener) {
             if (null != mPresenter) {
-                mPresenter.getTipTextView().setText(mTipPrepare);
-                mPresenter.getArrows().setImageResource(mArrowsDownId);
+                mPresenter.getHeaderTipTextView().setText(mTipPrepare);
+                mPresenter.getHeaderArrows().setImageResource(mArrowsUpId);
             }
         } else {
             mOnStatusListener.onPrepareToRefresh();
@@ -109,9 +109,9 @@ public class HeaderLayout extends RelativeLayout implements Header {
     public void onRefreshing() {
         if (null == mOnStatusListener) {
             if (null != mPresenter) {
-                mPresenter.getTipTextView().setText(mTipLoading);
-                mPresenter.getProgressBar().setVisibility(View.VISIBLE);
-                mPresenter.getArrows().setVisibility(View.INVISIBLE);
+                mPresenter.getHeaderTipTextView().setText(mTipLoading);
+                mPresenter.getHeaderProgressBar().setVisibility(View.VISIBLE);
+                mPresenter.getHeaderArrows().setVisibility(View.INVISIBLE);
             }
         } else {
             mOnStatusListener.onRefreshing();
@@ -122,10 +122,10 @@ public class HeaderLayout extends RelativeLayout implements Header {
     public void onFinish() {
         if (null == mOnStatusListener) {
             if (null != mPresenter) {
-                mPresenter.getTipTextView().setText(mTipFinish);
-                mPresenter.getProgressBar().setVisibility(View.INVISIBLE);
-                mPresenter.getArrows().setVisibility(View.VISIBLE);
-                mPresenter.getArrows().setImageResource(mArrowsUpId);
+                mPresenter.getHeaderTipTextView().setText(mTipFinish);
+                mPresenter.getHeaderProgressBar().setVisibility(View.INVISIBLE);
+                mPresenter.getHeaderArrows().setVisibility(View.VISIBLE);
+                mPresenter.getHeaderArrows().setImageResource(mArrowsDownId);
             }
         } else {
             mOnStatusListener.onFinish();
@@ -147,12 +147,12 @@ public class HeaderLayout extends RelativeLayout implements Header {
     /**
      * 使用代理者处理加载事件
      * <p>
-     * 如果没有设置 OnStatusListener，则使用 Presenter
+     * 如果没有设置 OnStatusListener，则使用 HeaderPresenter
      * 若设置了 OnStatusListener，则优先使用 OnStatusListener
      */
-    private Presenter mPresenter;
+    private HeaderPresenter mPresenter;
 
-    public void setPresenter(Presenter presenter) {
+    public void setPresenter(HeaderPresenter presenter) {
         mPresenter = presenter;
     }
 

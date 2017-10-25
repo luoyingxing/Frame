@@ -83,10 +83,10 @@ public class FooterLayout extends RelativeLayout implements Footer {
     public void onInit() {
         if (null == mOnStatusListener) {
             if (null != mPresenter) {
-                mPresenter.getTipTextView().setText(mTipInit);
-                mPresenter.getProgressBar().setVisibility(View.INVISIBLE);
-                mPresenter.getArrows().setVisibility(View.VISIBLE);
-                mPresenter.getArrows().setImageResource(mArrowsUpId);
+                mPresenter.getFooterTipTextView().setText(mTipInit);
+                mPresenter.getFooterProgressBar().setVisibility(View.INVISIBLE);
+                mPresenter.getFooterArrows().setVisibility(View.VISIBLE);
+                mPresenter.getFooterArrows().setImageResource(mArrowsUpId);
             }
         } else {
             mOnStatusListener.onInit();
@@ -97,8 +97,8 @@ public class FooterLayout extends RelativeLayout implements Footer {
     public void onPrepareToLoadMore() {
         if (null == mOnStatusListener) {
             if (null != mPresenter) {
-                mPresenter.getTipTextView().setText(mTipPrepare);
-                mPresenter.getArrows().setImageResource(mArrowsDownId);
+                mPresenter.getFooterTipTextView().setText(mTipPrepare);
+                mPresenter.getFooterArrows().setImageResource(mArrowsDownId);
             }
         } else {
             mOnStatusListener.onPrepareToLoadMore();
@@ -109,9 +109,9 @@ public class FooterLayout extends RelativeLayout implements Footer {
     public void onLoading() {
         if (null == mOnStatusListener) {
             if (null != mPresenter) {
-                mPresenter.getTipTextView().setText(mTipLoading);
-                mPresenter.getProgressBar().setVisibility(View.VISIBLE);
-                mPresenter.getArrows().setVisibility(View.INVISIBLE);
+                mPresenter.getFooterTipTextView().setText(mTipLoading);
+                mPresenter.getFooterProgressBar().setVisibility(View.VISIBLE);
+                mPresenter.getFooterArrows().setVisibility(View.INVISIBLE);
             }
         } else {
             mOnStatusListener.onLoading();
@@ -122,10 +122,10 @@ public class FooterLayout extends RelativeLayout implements Footer {
     public void onFinish() {
         if (null == mOnStatusListener) {
             if (null != mPresenter) {
-                mPresenter.getTipTextView().setText(mTipFinish);
-                mPresenter.getProgressBar().setVisibility(View.INVISIBLE);
-                mPresenter.getArrows().setVisibility(View.VISIBLE);
-                mPresenter.getArrows().setImageResource(mArrowsUpId);
+                mPresenter.getFooterTipTextView().setText(mTipFinish);
+                mPresenter.getFooterProgressBar().setVisibility(View.INVISIBLE);
+                mPresenter.getFooterArrows().setVisibility(View.VISIBLE);
+                mPresenter.getFooterArrows().setImageResource(mArrowsUpId);
             }
         } else {
             mOnStatusListener.onFinish();
@@ -147,12 +147,12 @@ public class FooterLayout extends RelativeLayout implements Footer {
     /**
      * 使用代理者处理加载事件
      * <p>
-     * 如果没有设置 OnStatusListener，则使用 Presenter
+     * 如果没有设置 OnStatusListener，则使用 FooterPresenter
      * 若设置了 OnStatusListener，则优先使用 OnStatusListener
      */
-    private Presenter mPresenter;
+    private FooterPresenter mPresenter;
 
-    public void setPresenter(Presenter presenter) {
+    public void setPresenter(FooterPresenter presenter) {
         mPresenter = presenter;
     }
 

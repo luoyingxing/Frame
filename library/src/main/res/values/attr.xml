@@ -24,14 +24,29 @@
         </attr>
     </declare-styleable>
 
-    <declare-styleable name="FooterLayout">
-        <attr name="tip_init" format="string" />
-        <attr name="tip_prepare" format="string" />
-        <attr name="tip_loading" format="string" />
-        <attr name="tip_finish" format="string" />
-        <attr name="arrows_up" format="reference" />
-        <attr name="arrows_down" format="reference" />
+    <attr name="tip_init" format="string" />
+    <attr name="tip_prepare" format="string" />
+    <attr name="tip_loading" format="string" />
+    <attr name="tip_finish" format="string" />
+    <attr name="arrows_up" format="reference" />
+    <attr name="arrows_down" format="reference" />
 
+    <declare-styleable name="FooterLayout">
+        <attr name="tip_init" />
+        <attr name="tip_prepare" />
+        <attr name="tip_loading" />
+        <attr name="tip_finish" />
+        <attr name="arrows_up" />
+        <attr name="arrows_down" />
+    </declare-styleable>
+
+    <declare-styleable name="HeaderLayout">
+        <attr name="tip_init" />
+        <attr name="tip_prepare" />
+        <attr name="tip_loading" />
+        <attr name="tip_finish" />
+        <attr name="arrows_up" />
+        <attr name="arrows_down" />
     </declare-styleable>
 
 </resources>

@@ -16,7 +16,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -137,7 +136,6 @@ public class RefreshLayout extends ViewGroup {
 
     @Override
     protected void onFinishInflate() {
-        Log.d(TAG, "onFinishInflate()");
         super.onFinishInflate();
         int count = getChildCount();
 
@@ -200,7 +198,6 @@ public class RefreshLayout extends ViewGroup {
 
     @Override
     protected void onAttachedToWindow() {
-        Log.d(TAG, "onAttachedToWindow()");
         super.onAttachedToWindow();
     }
 
@@ -248,8 +245,6 @@ public class RefreshLayout extends ViewGroup {
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        Log.d(TAG, "onLayout()");
-
         if (mHeaderView != null) {
             mHeaderView.layout(0,
                     (int) (mPullDownY + mPullUpY) - mHeaderView.getMeasuredHeight(),
@@ -273,13 +268,11 @@ public class RefreshLayout extends ViewGroup {
 
     @Override
     protected void dispatchDraw(Canvas canvas) {
-        Log.d(TAG, "dispatchDraw()");
         super.dispatchDraw(canvas);
     }
 
     @Override
     protected void onDetachedFromWindow() {
-        Log.d(TAG, "onDetachedFromWindow()");
         super.onDetachedFromWindow();
     }
 
@@ -896,7 +889,6 @@ public class RefreshLayout extends ViewGroup {
 
     @Override
     public void requestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-        Log.d(TAG, "requestDisallowInterceptTouchEvent()");
 //        super.requestDisallowInterceptTouchEvent(disallowIntercept);
     }
 }
