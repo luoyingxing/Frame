@@ -1,11 +1,16 @@
 package com.lyx.frame.refresh;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.RelativeLayout;
+
+import com.lyx.frame.R;
 
 /**
  * HeaderLayout 自定义刷新头，实现Header接口
@@ -15,17 +20,56 @@ import android.widget.RelativeLayout;
  */
 
 public class HeaderLayout extends RelativeLayout implements Header {
+    private String mTipInit;
+    private String mTipPrepare;
+    private String mTipLoading;
+    private String mTipFinish;
+    private int mArrowsUpId;
+    private int mArrowsDownId;
 
     public HeaderLayout(@NonNull Context context) {
         super(context);
+        initView(context, null);
     }
 
     public HeaderLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        initView(context, attrs);
     }
 
     public HeaderLayout(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        initView(context, attrs);
+    }
+
+    private void initView(Context context, AttributeSet attrs) {
+        TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.FooterLayout, 0, 0);
+
+        mTipInit = array.getString(R.styleable.FooterLayout_tip_init);
+        mTipPrepare = array.getString(R.styleable.FooterLayout_tip_prepare);
+        mTipLoading = array.getString(R.styleable.FooterLayout_tip_loading);
+        mTipFinish = array.getString(R.styleable.FooterLayout_tip_finish);
+
+        mArrowsUpId = array.getResourceId(R.styleable.FooterLayout_arrows_up, 0);
+        mArrowsDownId = array.getResourceId(R.styleable.FooterLayout_arrows_down, 0);
+
+        if (TextUtils.isEmpty(mTipInit)) {
+            mTipInit = getResources().getString(R.string.refresh_header_tip_init);
+        }
+
+        if (TextUtils.isEmpty(mTipPrepare)) {
+            mTipPrepare = getResources().getString(R.string.refresh_header_tip_prepare);
+        }
+
+        if (TextUtils.isEmpty(mTipLoading)) {
+            mTipLoading = getResources().getString(R.string.refresh_header_tip_load);
+        }
+
+        if (TextUtils.isEmpty(mTipFinish)) {
+            mTipFinish = getResources().getString(R.string.refresh_header_tip_finish);
+        }
+
+        array.recycle();
     }
 
     @Override
@@ -37,28 +81,53 @@ public class HeaderLayout extends RelativeLayout implements Header {
 
     @Override
     public void onInit() {
-        if (null != mOnStatusListener) {
+        if (null == mOnStatusListener) {
+            if (null != mPresenter) {
+                mPresenter.getTipTextView().setText(mTipInit);
+                mPresenter.getProgressBar().setVisibility(View.INVISIBLE);
+                mPresenter.getArrows().setVisibility(View.VISIBLE);
+                mPresenter.getArrows().setImageResource(mArrowsUpId);
+            }
+        } else {
             mOnStatusListener.onInit();
         }
     }
 
     @Override
     public void onPrepareToRefresh() {
-        if (null != mOnStatusListener) {
+        if (null == mOnStatusListener) {
+            if (null != mPresenter) {
+                mPresenter.getTipTextView().setText(mTipPrepare);
+                mPresenter.getArrows().setImageResource(mArrowsDownId);
+            }
+        } else {
             mOnStatusListener.onPrepareToRefresh();
         }
     }
 
     @Override
     public void onRefreshing() {
-        if (null != mOnStatusListener) {
+        if (null == mOnStatusListener) {
+            if (null != mPresenter) {
+                mPresenter.getTipTextView().setText(mTipLoading);
+                mPresenter.getProgressBar().setVisibility(View.VISIBLE);
+                mPresenter.getArrows().setVisibility(View.INVISIBLE);
+            }
+        } else {
             mOnStatusListener.onRefreshing();
         }
     }
 
     @Override
     public void onFinish() {
-        if (null != mOnStatusListener) {
+        if (null == mOnStatusListener) {
+            if (null != mPresenter) {
+                mPresenter.getTipTextView().setText(mTipFinish);
+                mPresenter.getProgressBar().setVisibility(View.INVISIBLE);
+                mPresenter.getArrows().setVisibility(View.VISIBLE);
+                mPresenter.getArrows().setImageResource(mArrowsUpId);
+            }
+        } else {
             mOnStatusListener.onFinish();
         }
     }
@@ -73,6 +142,18 @@ public class HeaderLayout extends RelativeLayout implements Header {
          * @param extendHeight Header的扩展高度
          */
         void onPulling(float percent, float pullHeight, int headerHeight, int extendHeight);
+    }
+
+    /**
+     * 使用代理者处理加载事件
+     * <p>
+     * 如果没有设置 OnStatusListener，则使用 Presenter
+     * 若设置了 OnStatusListener，则优先使用 OnStatusListener
+     */
+    private Presenter mPresenter;
+
+    public void setPresenter(Presenter presenter) {
+        mPresenter = presenter;
     }
 
     private OnPullingListener mOnPullingListener;
