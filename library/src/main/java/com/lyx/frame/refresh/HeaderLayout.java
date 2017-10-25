@@ -5,7 +5,7 @@ import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 
 /**
  * HeaderLayout 自定义刷新头，实现Header接口
@@ -14,7 +14,7 @@ import android.widget.FrameLayout;
  * date: 2017/8/28.
  */
 
-public class HeaderLayout extends FrameLayout implements Header {
+public class HeaderLayout extends RelativeLayout implements Header {
 
     public HeaderLayout(@NonNull Context context) {
         super(context);

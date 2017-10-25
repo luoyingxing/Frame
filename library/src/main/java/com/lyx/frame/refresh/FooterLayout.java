@@ -5,7 +5,7 @@ import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 
 /**
  * FooterLayout 自定义加载，实现Footer接口
@@ -14,7 +14,7 @@ import android.widget.FrameLayout;
  * date: 2017/8/28.
  */
 
-public class FooterLayout extends FrameLayout implements Footer {
+public class FooterLayout extends RelativeLayout implements Footer {
 
     public FooterLayout(@NonNull Context context) {
         super(context);
