@@ -116,7 +116,7 @@ public class RefreshLayout extends ViewGroup {
         mWindowHeight = metrics.heightPixels;
 
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.RefreshLayout);
-        mPullViewPosition = array.getInt(R.styleable.RefreshLayout_pullViewPosition, 0);
+        mPullViewPosition = array.getInt(R.styleable.RefreshLayout_pullView_position, 0);
 
         mSpring = array.getInt(R.styleable.RefreshLayout_spring, 0);
         switch (mSpring) {

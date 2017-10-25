@@ -13,7 +13,7 @@
     </declare-styleable>
 
     <declare-styleable name="RefreshLayout">
-        <attr name="pullViewPosition">
+        <attr name="pullView_position">
             <enum name="first" value="1" />
             <enum name="second" value="2" />
         </attr>
