@@ -622,6 +622,30 @@ public class RefreshLayout extends ViewGroup {
                     requestLayout();
                 }
             });
+            anim.addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    if (null != mHeaderView && mHeaderView instanceof Header) {
+                        ((Header) mHeaderView).onInit();
+                    }
+
+                    if (null != mOnStatusListener) {
+                        mOnStatusListener.onRefreshInit();
+                    }
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+                }
+            });
 
         } else if (mPullUpY != 0) {
             //加载完成后回弹
@@ -633,6 +657,30 @@ public class RefreshLayout extends ViewGroup {
                 public void onAnimationUpdate(ValueAnimator animation) {
                     mPullUpY = (float) animation.getAnimatedValue();
                     requestLayout();
+                }
+            });
+            anim.addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    if (null != mFooterView && mFooterView instanceof Footer) {
+                        ((Footer) mFooterView).onInit();
+                    }
+
+                    if (null != mOnStatusListener) {
+                        mOnStatusListener.onLoadInit();
+                    }
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
                 }
             });
         }
@@ -737,10 +785,6 @@ public class RefreshLayout extends ViewGroup {
     }
 
     public void onRefreshComplete() {
-        springBackAnimation();
-        requestLayout();
-        mStatus = Status.INIT;
-
         if (null != mHeaderView && mHeaderView instanceof Header) {
             ((Header) mHeaderView).onFinish();
         }
@@ -748,14 +792,12 @@ public class RefreshLayout extends ViewGroup {
         if (null != mOnStatusListener) {
             mOnStatusListener.onRefreshFinish();
         }
-    }
-
-    public void onLoadMoreComplete() {
         springBackAnimation();
         requestLayout();
         mStatus = Status.INIT;
-        mEnableUp = false;
+    }
 
+    public void onLoadMoreComplete() {
         if (null != mFooterView && mFooterView instanceof Footer) {
             ((Footer) mFooterView).onFinish();
         }
@@ -763,6 +805,10 @@ public class RefreshLayout extends ViewGroup {
         if (null != mOnStatusListener) {
             mOnStatusListener.onLoadFinish();
         }
+        springBackAnimation();
+        requestLayout();
+        mStatus = Status.INIT;
+        mEnableUp = false;
     }
 
     /**

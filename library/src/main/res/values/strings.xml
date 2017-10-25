@@ -4,11 +4,11 @@
     <string name="refresh_header_tip_init">下拉刷新</string>
     <string name="refresh_header_tip_prepare">松开可刷新</string>
     <string name="refresh_header_tip_load">正在刷新…</string>
-    <string name="refresh_header_tip_finish">下拉刷新</string>
+    <string name="refresh_header_tip_finish">下拉完成</string>
 
     <string name="refresh_footer_tip_init">上拉加载更多</string>
     <string name="refresh_footer_tip_prepare">松开加载更多</string>
     <string name="refresh_footer_tip_load">正在加载…</string>
-    <string name="refresh_footer_tip_finish">上拉加载更多</string>
+    <string name="refresh_footer_tip_finish">加载完成</string>
 
 </resources>
