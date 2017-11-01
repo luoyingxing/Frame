@@ -7,7 +7,10 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -20,6 +23,7 @@ import com.lyx.sample.frame.recycler.ViewHolder;
 import com.lyx.sample.frame.recycler.XAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     @Id(R.id.sv_home)
@@ -43,10 +47,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        setAdapter();
+//        setAdapter();
     }
 
-    private void setAdapter(){
+    private void setAdapter() {
         mXAdapter = new XAdapter<Image>(MainActivity.this, new ArrayList<Image>(), R.layout.item_image_list) {
             @Override
             public void convert(ViewHolder holder, Image item) {
@@ -79,6 +83,46 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        mRecyclerView.setAdapter(new RecyclerAdapter(Image.getImageList()));
+    }
+
+    private class RecyclerAdapter extends RecyclerView.Adapter<Holder> {
+
+        private List<Image> list;
+
+        public RecyclerAdapter(List<Image> list) {
+            this.list = list;
+        }
+
+        @Override
+        public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View root = LayoutInflater.from(MainActivity.this).inflate(R.layout.item_image_list, parent, false);
+            return new Holder(root);
+        }
+
+        @Override
+        public void onBindViewHolder(Holder holder, int position) {
+            holder.textView.setText(list.get(position).getTitle());
+            holder.imageView.setImageURI(Uri.parse(list.get(position).getUrl()));
+        }
+
+        @Override
+        public int getItemCount() {
+            return list.size();
+        }
+    }
+
+    private class Holder extends RecyclerView.ViewHolder {
+        TextView textView;
+        SimpleDraweeView imageView;
+
+        public Holder(View itemView) {
+            super(itemView);
+            textView = (TextView) itemView.findViewById(R.id.tv_image_title);
+            imageView = (SimpleDraweeView) itemView.findViewById(R.id.iv_image_image);
+        }
     }
 
     private class SpaceItemDecoration extends RecyclerView.ItemDecoration {
