@@ -10,12 +10,12 @@ import java.lang.reflect.Field;
 
 /**
  * IdParser
+ * 该类用于处理标注View组件，通过反射实现findViewById()这个麻烦的操作，同时支持设置View的监听事件和触摸事件，配合{OnClick}{OnTouch}两个注解使用
  * <p/>
  * author:  luoyingxing
  * date: 2017/10/16.
  */
 public class IdParser {
-
     /**
      * if it has been use in the activity, this method at least called in the OnCreate();
      * <p>

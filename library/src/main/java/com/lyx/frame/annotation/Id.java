@@ -7,6 +7,7 @@ import java.lang.annotation.Target;
 
 /**
  * Id
+ * 该注解用于标注View组件，传入View的资源id，省去 findViewById() 这个麻烦的操作，该注解配合{IdParser.class}使用
  * <p/>
  * author:  luoyingxing
  * date: 2017/10/16.

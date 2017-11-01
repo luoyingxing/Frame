@@ -6,7 +6,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * ImageUrl 该注解用于标注泛型类实体中图片的地址字段
+ * ImageUrl
+ * 该注解用于轮播图{SlideView}传入泛型参数，标注泛型类实体中图片的地址字段
  * <p>
  * Autor: luoyingxing
  * Time: 2017/10/22 0022
