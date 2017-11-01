@@ -43,6 +43,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        setAdapter();
+    }
+
+    private void setAdapter(){
         mXAdapter = new XAdapter<Image>(MainActivity.this, new ArrayList<Image>(), R.layout.item_image_list) {
             @Override
             public void convert(ViewHolder holder, Image item) {
@@ -68,12 +72,13 @@ public class MainActivity extends AppCompatActivity {
             public void onItemLongClick(ViewHolder holder, Image item, int position) {
             }
         });
+        mXAdapter.addAll(Image.getImageList());
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mXAdapter.addAll(Image.getImageList());
+
     }
 
     private class SpaceItemDecoration extends RecyclerView.ItemDecoration {
