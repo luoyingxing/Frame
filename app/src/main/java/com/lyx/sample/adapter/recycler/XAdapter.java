@@ -16,14 +16,12 @@ import java.util.List;
  * Created by luoyingxing on 2017/8/14.
  */
 
-public abstract class XAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
+public  class XAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
     private Context mContext;
-    private int mLayoutId;
     private List<T> mList;
-
+    private int mPosition;
     private OnItemClickListeners<T> mItemClickListener;
-
-    public abstract void convert(ViewHolder holder, T item);
+    private DelegateManager mDelegateManager;
 
     public void add(T item) {
         mList.add(getItemCount(), item);
@@ -45,15 +43,27 @@ public abstract class XAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
         notifyDataSetChanged();
     }
 
-    public XAdapter(Context context, List<T> list, int layoutId) {
+    public XAdapter(Context context, List<T> list) {
         mContext = context;
-        mLayoutId = layoutId;
         mList = list == null ? new ArrayList<T>() : list;
+        mDelegateManager = new DelegateManager();
+    }
+
+    public XAdapter addDelegate(Delegate<T> delegate) {
+        mDelegateManager.addDelegate(delegate);
+        return this;
+    }
+
+    private boolean useItemViewDelegateManager() {
+        return mDelegateManager.getDelegateCount() > 0;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return ViewHolder.create(mContext, mLayoutId, parent);
+        Delegate delegate = mDelegateManager.getItemViewDelegate(mList.get(mPosition), mPosition);
+        int layoutId = delegate.getItemViewLayoutId();
+
+        return ViewHolder.create(mContext, layoutId, parent);
     }
 
     @Override
@@ -62,7 +72,8 @@ public abstract class XAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
     }
 
     private void bindItem(final ViewHolder holder, final int position) {
-        convert(holder, mList.get(position));
+        mDelegateManager.convert(holder, mList.get(position), position);
+
         holder.getConvertView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,6 +96,11 @@ public abstract class XAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
+        mPosition = position;
+        if (useItemViewDelegateManager()) {
+            int viewType = mDelegateManager.getItemViewType(mList.get(position), position);
+            return viewType;
+        }
         return super.getItemViewType(position);
     }
 
