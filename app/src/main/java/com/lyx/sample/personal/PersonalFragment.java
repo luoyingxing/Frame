@@ -1,4 +1,4 @@
-package com.lyx.sample.setting;
+package com.lyx.sample.personal;
 
 import android.graphics.Rect;
 import android.net.Uri;
@@ -23,7 +23,7 @@ import com.lyx.sample.frame.BaseFragment;
 
 import java.util.ArrayList;
 
-public class SettingFragment extends BaseFragment {
+public class PersonalFragment extends BaseFragment {
     //    @Id(R.id.sv_home)
     private SlideView<SlideInfo> mSlideView;
     //    @Id(R.id.rv_home)
@@ -31,7 +31,7 @@ public class SettingFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_setting, container, false);
+        return inflater.inflate(R.layout.fragment_personal, container, false);
     }
 
     @Override

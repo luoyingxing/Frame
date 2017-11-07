@@ -14,7 +14,7 @@ import com.lyx.frame.annotation.IdParser;
 import com.lyx.sample.frame.BaseActivity;
 import com.lyx.sample.home.HomeFragment;
 import com.lyx.sample.more.MoreFragment;
-import com.lyx.sample.setting.SettingFragment;
+import com.lyx.sample.personal.PersonalFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +38,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         List<Fragment> fragments = new ArrayList<>();
         fragments.add(new HomeFragment());
         fragments.add(new MoreFragment());
-        fragments.add(new SettingFragment());
+        fragments.add(new PersonalFragment());
 
         mViewPager.setAdapter(new PageViewAdapter(getSupportFragmentManager(), fragments));
         mViewPager.setCurrentItem(0);
@@ -58,7 +58,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 mNavigationView.setSelectedItemId(R.id.navigation_more);
                 break;
             case 2:
-                mNavigationView.setSelectedItemId(R.id.navigation_setting);
+                mNavigationView.setSelectedItemId(R.id.navigation_personal);
                 break;
         }
     }
@@ -95,7 +95,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             case R.id.navigation_more:
                 mViewPager.setCurrentItem(1);
                 return true;
-            case R.id.navigation_setting:
+            case R.id.navigation_personal:
                 mViewPager.setCurrentItem(2);
                 return true;
         }
