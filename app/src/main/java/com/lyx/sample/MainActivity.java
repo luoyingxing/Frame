@@ -1,151 +1,104 @@
 package com.lyx.sample;
 
-import android.graphics.Rect;
-import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.Toast;
+import android.view.MenuItem;
 
-import com.facebook.drawee.view.SimpleDraweeView;
-import com.lyx.frame.adapter.recycler.MultiAdapter;
-import com.lyx.frame.adapter.recycler.Proxy;
-import com.lyx.frame.adapter.recycler.ViewHolder;
 import com.lyx.frame.annotation.Id;
 import com.lyx.frame.annotation.IdParser;
-import com.lyx.frame.slide.SlideView;
-import com.lyx.sample.entity.Image;
-import com.lyx.sample.entity.SlideInfo;
+import com.lyx.sample.frame.BaseActivity;
+import com.lyx.sample.home.HomeFragment;
+import com.lyx.sample.more.MoreFragment;
+import com.lyx.sample.setting.SettingFragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
-    @Id(R.id.sv_home)
-    private SlideView<SlideInfo> mSlideView;
-    @Id(R.id.rv_home)
-    private RecyclerView mRecyclerView;
+
+public class MainActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener, ViewPager.OnPageChangeListener {
+    @Id(R.id.vp_main)
+    private ViewPager mViewPager;
+    @Id(R.id.navigation_main)
+    private BottomNavigationView mNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         IdParser.inject(this);
-        mSlideView.init(SlideInfo.getDefaultList());
-        mSlideView.setOnItemClickListener(new SlideView.OnItemClickListener<SlideInfo>() {
-            @Override
-            public void onItemClick(SlideInfo info, int position) {
-                Toast.makeText(MainActivity.this, info.getTitle(), Toast.LENGTH_SHORT).show();
-            }
-        });
 
-        setAdapter();
+        mNavigationView.setOnNavigationItemSelectedListener(this);
+        mViewPager.addOnPageChangeListener(this);
+
+        List<Fragment> fragments = new ArrayList<>();
+        fragments.add(new HomeFragment());
+        fragments.add(new MoreFragment());
+        fragments.add(new SettingFragment());
+
+        mViewPager.setAdapter(new PageViewAdapter(getSupportFragmentManager(), fragments));
+        mViewPager.setCurrentItem(0);
     }
 
-    private MultiAdapter<Image> mAdapter;
-
-    private void setAdapter() {
-        mAdapter = new MultiAdapter<>(this, new ArrayList<Image>());
-        mAdapter.addProxy(new Proxy<Image>() {
-            @Override
-            public int getItemViewLayoutId() {
-                return R.layout.item_image_list;
-            }
-
-            @Override
-            public boolean isApplyFromViewType(Image item, int position) {
-                return item.getType() == 1;
-            }
-
-            @Override
-            public void convert(ViewHolder holder, Image item, int position) {
-                holder.setText(R.id.tv_image_title, "相册 " + item.getTitle());
-                SimpleDraweeView imageView = holder.getView(R.id.iv_image_image);
-                imageView.setImageURI(Uri.parse(item.getUrl()));
-            }
-        });
-
-        mAdapter.addProxy(new Proxy<Image>() {
-            @Override
-            public int getItemViewLayoutId() {
-                return R.layout.item_image_list_two;
-            }
-
-            @Override
-            public boolean isApplyFromViewType(Image item, int position) {
-                return item.getType() == 2;
-            }
-
-            @Override
-            public void convert(ViewHolder holder, Image item, int position) {
-                holder.setText(R.id.tv_image_title_two, "item_image_list_two " + item.getTitle());
-                SimpleDraweeView imageView = holder.getView(R.id.iv_image_image_two);
-                imageView.setImageURI(Uri.parse(item.getUrl()));
-            }
-        });
-
-        mAdapter.addProxy(new Proxy<Image>() {
-            @Override
-            public int getItemViewLayoutId() {
-                return R.layout.item_image_list_three;
-            }
-
-            @Override
-            public boolean isApplyFromViewType(Image item, int position) {
-                return item.getType() == 3;
-            }
-
-            @Override
-            public void convert(ViewHolder holder, Image item, int position) {
-                holder.setText(R.id.tv_image_title_three, "哈哈3 " + item.getTitle());
-                SimpleDraweeView imageView = holder.getView(R.id.iv_image_image_three);
-                imageView.setImageURI(Uri.parse(item.getUrl()));
-            }
-        });
-
-
-        mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.addItemDecoration(new SpaceItemDecoration(2));
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mRecyclerView.setLayoutManager(new GridLayoutManager(this, 1));
-
-        mAdapter.setOnItemClickListener(new MultiAdapter.OnItemClickListeners<Image>() {
-            @Override
-            public void onItemClick(ViewHolder holder, Image item, int position) {
-                Toast.makeText(MainActivity.this, "第" + position + "张", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onItemLongClick(ViewHolder holder, Image item, int position) {
-            }
-        });
-
-        mAdapter.addAll(Image.getImageList());
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
     }
 
-    private class SpaceItemDecoration extends RecyclerView.ItemDecoration {
-        int mSpace;
+    @Override
+    public void onPageSelected(int position) {
+        switch (position) {
+            case 0:
+                mNavigationView.setSelectedItemId(R.id.navigation_home);
+                break;
+            case 1:
+                mNavigationView.setSelectedItemId(R.id.navigation_more);
+                break;
+            case 2:
+                mNavigationView.setSelectedItemId(R.id.navigation_setting);
+                break;
+        }
+    }
 
-        public SpaceItemDecoration(int space) {
-            this.mSpace = space;
+    @Override
+    public void onPageScrollStateChanged(int state) {
+    }
+
+    private class PageViewAdapter extends FragmentPagerAdapter {
+        private List<Fragment> fragments;
+
+        public PageViewAdapter(FragmentManager fm, List<Fragment> fragments) {
+            super(fm);
+            this.fragments = fragments;
         }
 
         @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-            int itemCount = mAdapter.getItemCount();
-            int pos = parent.getChildAdapterPosition(view);
-
-            outRect.left = mSpace;
-            outRect.top = mSpace;
-            outRect.bottom = mSpace;
-
-            if (pos != (itemCount - 1)) {
-                outRect.right = mSpace;
-            } else {
-                outRect.right = 0;
-            }
+        public Fragment getItem(int position) {
+            return fragments.get(position);
         }
+
+        @Override
+        public int getCount() {
+            return fragments.size();
+        }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.navigation_home:
+                mViewPager.setCurrentItem(0);
+                return true;
+            case R.id.navigation_more:
+                mViewPager.setCurrentItem(1);
+                return true;
+            case R.id.navigation_setting:
+                mViewPager.setCurrentItem(2);
+                return true;
+        }
+        return false;
     }
 }

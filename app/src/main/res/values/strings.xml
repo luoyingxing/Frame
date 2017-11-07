@@ -24,4 +24,8 @@
     <string name="load_succeed">加载成功</string>
     <string name="load_fail">加载失败</string>
 
+    <string name="menu_main_navigation_title_home">Home</string>
+    <string name="menu_main_navigation_title_more">More</string>
+    <string name="menu_main_navigation_title_Setting">Setting</string>
+
 </resources>
