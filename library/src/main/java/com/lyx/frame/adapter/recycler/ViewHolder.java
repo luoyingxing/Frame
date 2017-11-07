@@ -1,4 +1,4 @@
-package com.lyx.sample.adapter.recycler;
+package com.lyx.frame.adapter.recycler;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

@@ -1,23 +1,30 @@
-package com.lyx.sample.adapter.abs;
+package com.lyx.frame.adapter.abs;
 
 import android.content.Context;
 
 import java.util.List;
 
-
+/**
+ * CommonAdapter
+ * <p>
+ * author:  luoyingxing
+ * date: 2017/11/7.
+ *
+ * @param <T>
+ */
 public abstract class CommonAdapter<T> extends MultiAdapter<T> {
 
     public CommonAdapter(Context context, List<T> list, final int layoutId) {
         super(context, list);
 
-        addDelegate(new Delegate<T>() {
+        addProxy(new Proxy<T>() {
             @Override
             public int getItemViewLayoutId() {
                 return layoutId;
             }
 
             @Override
-            public boolean isForViewType(T item, int position) {
+            public boolean isApplyFromViewType(T item, int position) {
                 return true;
             }
 

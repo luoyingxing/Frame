@@ -1,4 +1,4 @@
-package com.lyx.sample.adapter.recycler;
+package com.lyx.frame.adapter.recycler;
 
 import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
@@ -11,17 +11,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * XAdapter
+ * MultiAdapter
  * <p>
- * Created by luoyingxing on 2017/8/14.
+ * author:  luoyingxing
+ * date: 2017/11/7.
+ *
+ * @param <T>
  */
-
-public  class XAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
+public class MultiAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
     private Context mContext;
     private List<T> mList;
     private int mPosition;
     private OnItemClickListeners<T> mItemClickListener;
-    private DelegateManager mDelegateManager;
+    private ProxyManager mProxyManager;
 
     public void add(T item) {
         mList.add(getItemCount(), item);
@@ -43,26 +45,27 @@ public  class XAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
         notifyDataSetChanged();
     }
 
-    public XAdapter(Context context, List<T> list) {
+    public MultiAdapter(Context context, List<T> list) {
         mContext = context;
         mList = list == null ? new ArrayList<T>() : list;
-        mDelegateManager = new DelegateManager();
+        mProxyManager = new ProxyManager();
     }
 
-    public XAdapter addDelegate(Delegate<T> delegate) {
-        mDelegateManager.addDelegate(delegate);
+    public MultiAdapter addProxy(Proxy<T> delegate) {
+        if (null != mProxyManager) {
+            mProxyManager.addProxy(delegate);
+        }
         return this;
     }
 
-    private boolean useItemViewDelegateManager() {
-        return mDelegateManager.getDelegateCount() > 0;
+    private boolean useItemViewProxyManager() {
+        return null != mProxyManager && mProxyManager.getProxyCount() > 0;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Delegate delegate = mDelegateManager.getItemViewDelegate(mList.get(mPosition), mPosition);
+        Proxy delegate = mProxyManager.getItemViewProxy(mList.get(mPosition), mPosition);
         int layoutId = delegate.getItemViewLayoutId();
-
         return ViewHolder.create(mContext, layoutId, parent);
     }
 
@@ -72,36 +75,48 @@ public  class XAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
     }
 
     private void bindItem(final ViewHolder holder, final int position) {
-        mDelegateManager.convert(holder, mList.get(position), position);
+        mProxyManager.convert(holder, mList.get(position), position);
 
-        holder.getConvertView().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mItemClickListener.onItemClick(holder, mList.get(position), position);
-            }
-        });
-        holder.getConvertView().setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                mItemClickListener.onItemLongClick(holder, mList.get(position), position);
-                return true;
-            }
-        });
+        if (null != mItemClickListener){
+            holder.getConvertView().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mItemClickListener.onItemClick(holder, mList.get(position), position);
+                }
+            });
+            holder.getConvertView().setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    mItemClickListener.onItemLongClick(holder, mList.get(position), position);
+                    return true;
+                }
+            });
+        }
     }
 
     @Override
     public int getItemCount() {
-        return mList.size();
+        if (null != mList) {
+            return mList.size();
+        }
+        return 0;
     }
 
     @Override
     public int getItemViewType(int position) {
         mPosition = position;
-        if (useItemViewDelegateManager()) {
-            int viewType = mDelegateManager.getItemViewType(mList.get(position), position);
+        if (useItemViewProxyManager()) {
+            int viewType = mProxyManager.getItemViewType(mList.get(position), position);
             return viewType;
         }
         return super.getItemViewType(position);
+    }
+
+    public T getItem(int position) {
+        if (mList.isEmpty()) {
+            return null;
+        }
+        return mList.get(position);
     }
 
     @Override
@@ -134,13 +149,6 @@ public  class XAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
         }
     }
 
-    public T getItem(int position) {
-        if (mList.isEmpty()) {
-            return null;
-        }
-        return mList.get(position);
-    }
-
     private boolean isFooterView(int position) {
         return position >= getItemCount() - 1;
     }
@@ -154,6 +162,5 @@ public  class XAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
 
         void onItemLongClick(ViewHolder holder, T item, int position);
     }
-
 
 }

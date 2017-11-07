@@ -1,4 +1,4 @@
-package com.lyx.sample.adapter.abs;
+package com.lyx.frame.adapter.abs;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -22,7 +22,8 @@ import android.widget.TextView;
 /**
  * ViewHolder
  * <p>
- * Created by luoyingxing on 2017/5/23.
+ * author:  luoyingxing
+ * date: 2017/11/7.
  */
 
 public class ViewHolder {
@@ -53,9 +54,8 @@ public class ViewHolder {
         }
     }
 
-
     /**
-     * get the view from id
+     * get the view by id
      *
      * @param viewId view's id
      * @return view
@@ -85,17 +85,9 @@ public class ViewHolder {
         return mPosition;
     }
 
-
-    /**
-     * setText().this method for TextView
-     *
-     * @param viewId view's id
-     * @param text   content
-     * @return ViewHolder
-     */
     public ViewHolder setText(int viewId, String text) {
-        TextView tv = getView(viewId);
-        tv.setText(text);
+        TextView view = getView(viewId);
+        view.setText(text);
         return this;
     }
 
@@ -189,7 +181,7 @@ public class ViewHolder {
         return this;
     }
 
-    public ViewHolder setMax(int viewId, int max) {
+    public ViewHolder setMaxProgress(int viewId, int max) {
         ProgressBar view = getView(viewId);
         view.setMax(max);
         return this;

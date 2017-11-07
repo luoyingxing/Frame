@@ -1,4 +1,4 @@
-package com.lyx.sample.adapter.abs;
+package com.lyx.frame.adapter.abs;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,82 +11,87 @@ import java.util.List;
 /**
  * MultiAdapter
  * <p>
- * Created by luoyingxing on 2017/5/23.
+ * author:  luoyingxing
+ * date: 2017/11/7.
+ *
+ * @param <T>
  */
-
 public class MultiAdapter<T> extends ArrayAdapter<T> {
     protected Context mContext;
     private List<T> mDataList;
-
-    private DelegateManager mDelegateManager;
+    private ProxyManager mProxyManager;
 
     public MultiAdapter(Context context, List<T> list) {
         super(context, 0, list);
         this.mContext = context;
         this.mDataList = list;
-        mDelegateManager = new DelegateManager();
+        mProxyManager = new ProxyManager();
     }
 
-    public MultiAdapter addDelegate(Delegate<T> delegate) {
-        mDelegateManager.addDelegate(delegate);
+    public MultiAdapter addProxy(Proxy<T> proxy) {
+        if (null != mProxyManager) {
+            mProxyManager.addProxy(proxy);
+        }
         return this;
     }
 
-    private boolean useItemViewDelegateManager() {
-        return mDelegateManager.getDelegateCount() > 0;
+    private boolean useItemViewProxyManager() {
+        return null != mProxyManager && mProxyManager.getProxyCount() > 0;
     }
 
     @Override
     public int getViewTypeCount() {
-        if (useItemViewDelegateManager()) {
-            return mDelegateManager.getDelegateCount();
+        if (useItemViewProxyManager()) {
+            return mProxyManager.getProxyCount();
         }
         return super.getViewTypeCount();
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (useItemViewDelegateManager()) {
-            int viewType = mDelegateManager.getItemViewType(mDataList.get(position), position);
-            return viewType;
+        if (useItemViewProxyManager()) {
+            return mProxyManager.getItemViewType(mDataList.get(position), position);
         }
         return super.getItemViewType(position);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Delegate delegate = mDelegateManager.getItemViewDelegate(mDataList.get(position), position);
-        int layoutId = delegate.getItemViewLayoutId();
+        Proxy proxy = mProxyManager.getItemViewProxy(mDataList.get(position), position);
+        int layoutId = proxy.getItemViewLayoutId();
         ViewHolder viewHolder;
-        if (convertView == null) {
+        if (null == convertView) {
             View itemView = LayoutInflater.from(mContext).inflate(layoutId, parent, false);
             viewHolder = new ViewHolder(mContext, itemView, parent, position);
             viewHolder.mLayoutId = layoutId;
-            onViewHolderCreated(viewHolder, viewHolder.getConvertView());
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
             viewHolder.mPosition = position;
         }
-
         convert(viewHolder, getItem(position), position);
         return viewHolder.getConvertView();
     }
 
     protected void convert(ViewHolder viewHolder, T item, int position) {
-        mDelegateManager.convert(viewHolder, item, position);
-    }
-
-    public void onViewHolderCreated(ViewHolder holder, View itemView) {
+        if (null != mProxyManager) {
+            mProxyManager.convert(viewHolder, item, position);
+        }
     }
 
     @Override
     public int getCount() {
-        return mDataList.size();
+        if (mDataList != null) {
+            return mDataList.size();
+        }
+        return 0;
     }
 
     @Override
     public T getItem(int position) {
-        return mDataList.get(position);
+        if (mDataList != null) {
+            return mDataList.get(position);
+        }
+        return null;
     }
 
     @Override
