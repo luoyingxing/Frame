@@ -101,4 +101,16 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         }
         return false;
     }
+
+    private long mExitTime;
+
+    @Override
+    public void onBackPressed() {
+        if (System.currentTimeMillis() - mExitTime > 2000) {
+            showToast("再按一次退出");
+            mExitTime = System.currentTimeMillis();
+        } else {
+            finish();
+        }
+    }
 }
