@@ -13,3 +13,6 @@ frame
 - 1.0.3
   
   增加了FooterPresenter和HeaderPresenter接口，提供对特定场合的刷新和加载事件的处理。
+  
+- 1.0.4
+  增加了支持AbsListView和RecyclerView的通用多item类型的适配器。
