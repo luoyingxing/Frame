@@ -1,25 +1,24 @@
-package com.lyx.sample.frame.ui.scroll;
+package com.lyx.frame.widget.scroll;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.webkit.WebView;
+import android.widget.ExpandableListView;
 
 /**
- * ScrollWebView
- * <p/>
+ * ScrollExListView
+ * <p>
  * Created by luoyingxing on 2017/5/18.
  */
-public class ScrollWebView extends WebView {
-
-    public ScrollWebView(Context context) {
+public class ScrollExListView extends ExpandableListView {
+    public ScrollExListView(Context context) {
         super(context);
     }
 
-    public ScrollWebView(Context context, AttributeSet attrs) {
+    public ScrollExListView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public ScrollWebView(Context context, AttributeSet attrs, int defStyle) {
+    public ScrollExListView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
@@ -29,4 +28,5 @@ public class ScrollWebView extends WebView {
                 MeasureSpec.AT_MOST);
         super.onMeasure(widthMeasureSpec, expandSpec);
     }
+
 }

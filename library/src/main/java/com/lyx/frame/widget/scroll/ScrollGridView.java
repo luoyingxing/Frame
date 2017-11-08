@@ -1,26 +1,24 @@
-package com.lyx.sample.frame.ui.scroll;
+package com.lyx.frame.widget.scroll;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-
+import android.widget.GridView;
 
 /**
- * ScrollRecyclerView
+ * ScrollGridView
  * <p>
  * Created by luoyingxing on 2017/5/18.
  */
-public class ScrollRecyclerView extends RecyclerView {
-
-    public ScrollRecyclerView(Context context) {
+public class ScrollGridView extends GridView {
+    public ScrollGridView(Context context) {
         super(context);
     }
 
-    public ScrollRecyclerView(Context context, AttributeSet attrs) {
+    public ScrollGridView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public ScrollRecyclerView(Context context, AttributeSet attrs, int defStyle) {
+    public ScrollGridView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 

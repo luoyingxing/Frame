@@ -1,24 +1,19 @@
-package com.lyx.sample.frame.ui.scroll;
+package com.lyx.frame.widget.scroll;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.GridView;
+import android.widget.ListView;
 
-/**
- * ScrollGridView
- * <p>
- * Created by luoyingxing on 2017/5/18.
- */
-public class ScrollGridView extends GridView {
-    public ScrollGridView(Context context) {
+public class ScrollListView extends ListView {
+    public ScrollListView(Context context) {
         super(context);
     }
 
-    public ScrollGridView(Context context, AttributeSet attrs) {
+    public ScrollListView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public ScrollGridView(Context context, AttributeSet attrs, int defStyle) {
+    public ScrollListView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 

@@ -1,4 +1,4 @@
-package com.lyx.sample.frame.ui.view;
+package com.lyx.frame.widget;
 
 import android.content.Context;
 import android.support.v7.widget.AppCompatTextView;

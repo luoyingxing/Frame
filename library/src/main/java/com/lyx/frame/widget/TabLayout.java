@@ -1,4 +1,4 @@
-package com.lyx.sample.frame.ui.view;
+package com.lyx.frame.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import com.lyx.sample.R;
+import com.lyx.frame.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ import java.util.List;
  */
 
 public class TabLayout extends RelativeLayout {
-    private static final String TAG = "TabLayout";
+    private static final String TAG = TabLayout.class.getName();
 
     private float mHorizontalSpace;
 

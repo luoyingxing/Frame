@@ -1,4 +1,4 @@
-package com.lyx.sample.frame.ui.scroll;
+package com.lyx.frame.widget.scroll;
 
 import android.content.Context;
 import android.util.AttributeSet;

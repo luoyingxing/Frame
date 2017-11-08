@@ -1,4 +1,4 @@
-package com.lyx.sample.frame.ui.view;
+package com.lyx.frame.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -9,7 +9,8 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.lyx.sample.R;
+
+import com.lyx.frame.R;
 
 import java.util.List;
 

@@ -1,24 +1,26 @@
-package com.lyx.sample.frame.ui.scroll;
+package com.lyx.frame.widget.scroll;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.widget.ExpandableListView;
+
 
 /**
- * ScrollExListView
+ * ScrollRecyclerView
  * <p>
  * Created by luoyingxing on 2017/5/18.
  */
-public class ScrollExListView extends ExpandableListView {
-    public ScrollExListView(Context context) {
+public class ScrollRecyclerView extends RecyclerView {
+
+    public ScrollRecyclerView(Context context) {
         super(context);
     }
 
-    public ScrollExListView(Context context, AttributeSet attrs) {
+    public ScrollRecyclerView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public ScrollExListView(Context context, AttributeSet attrs, int defStyle) {
+    public ScrollRecyclerView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
@@ -28,5 +30,4 @@ public class ScrollExListView extends ExpandableListView {
                 MeasureSpec.AT_MOST);
         super.onMeasure(widthMeasureSpec, expandSpec);
     }
-
 }
