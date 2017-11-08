@@ -1,4 +1,4 @@
-package com.lyx.sample.frame.permission;
+package com.lyx.frame.permission;
 
 import android.app.Activity;
 import android.content.Context;
@@ -35,7 +35,7 @@ import java.util.List;
  */
 
 public class PermissionManager {
-    private static final int CODE = 5001;
+    private static final int CODE = 0x5000;
     private List<Permission> mPermissionList;
     private List<Permission> mNeedPermissionList;
     private Activity mActivity;
@@ -157,6 +157,12 @@ public class PermissionManager {
         }
     }
 
+    /**
+     * check Permission is apply
+     * @param context Context
+     * @param permission Permission
+     * @return true is apply, otherwise is false
+     */
     public static boolean checkPermission(Context context, String permission) {
         return ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED;
     }

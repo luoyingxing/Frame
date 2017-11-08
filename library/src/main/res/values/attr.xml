@@ -9,7 +9,7 @@
         <attr name="dotNormal" format="reference" />
         <attr name="placeHolderImage" format="reference" />
         <attr name="textBackground" format="color" />
-        <attr name="textColor" format="color" />
+        <attr name="textColor"  />
     </declare-styleable>
 
     <declare-styleable name="RefreshLayout">
@@ -30,6 +30,7 @@
     <attr name="tip_finish" format="string" />
     <attr name="arrows_up" format="reference" />
     <attr name="arrows_down" format="reference" />
+    <attr name="textColor" />
 
     <declare-styleable name="FooterLayout">
         <attr name="tip_init" />
@@ -63,7 +64,7 @@
         <attr name="interval" format="integer" />
         <attr name="lineStrokeWidth" format="integer" />
         <attr name="circleColor" format="color" />
-        <attr name="textColor" format="color" />
+        <attr name="textColor"/>
         <attr name="orientation">
             <enum name="horizontal" value="1" />
             <enum name="vertical" value="2" />

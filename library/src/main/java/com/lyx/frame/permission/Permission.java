@@ -1,4 +1,4 @@
-package com.lyx.sample.frame.permission;
+package com.lyx.frame.permission;
 
 /**
  * Permission
