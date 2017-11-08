@@ -1,4 +1,4 @@
-package com.lyx.sample.frame.looper;
+package com.lyx.frame.looper;
 
 /**
  * LooperKitException
