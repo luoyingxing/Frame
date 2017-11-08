@@ -72,7 +72,7 @@ public class HomeFragment extends BaseFragment {
 
             @Override
             public void convert(ViewHolder holder, Image item, int position) {
-                holder.setText(R.id.tv_image_title, "相册 " + item.getTitle());
+                holder.setText(R.id.tv_image_title, item.getTitle());
                 SimpleDraweeView imageView = holder.getView(R.id.iv_image_image);
                 imageView.setImageURI(Uri.parse(item.getUrl()));
             }
@@ -91,7 +91,7 @@ public class HomeFragment extends BaseFragment {
 
             @Override
             public void convert(ViewHolder holder, Image item, int position) {
-                holder.setText(R.id.tv_image_title_two, "item_image_list_two " + item.getTitle());
+                holder.setText(R.id.tv_image_title_two, item.getTitle());
                 SimpleDraweeView imageView = holder.getView(R.id.iv_image_image_two);
                 imageView.setImageURI(Uri.parse(item.getUrl()));
             }
@@ -110,15 +110,14 @@ public class HomeFragment extends BaseFragment {
 
             @Override
             public void convert(ViewHolder holder, Image item, int position) {
-                holder.setText(R.id.tv_image_title_three, "哈哈3 " + item.getTitle());
+                holder.setText(R.id.tv_image_title_three, item.getTitle());
                 SimpleDraweeView imageView = holder.getView(R.id.iv_image_image_three);
                 imageView.setImageURI(Uri.parse(item.getUrl()));
             }
         });
 
-
         mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.addItemDecoration(new SpaceItemDecoration(2));
+        mRecyclerView.addItemDecoration(new SpaceItemDecoration(8));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
 

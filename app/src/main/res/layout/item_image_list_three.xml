@@ -17,7 +17,7 @@
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/iv_image_image_three"
-        android:layout_width="100dp"
+        android:layout_width="200dp"
         android:layout_height="90dp"
         android:contentDescription="@string/app_name"
         app:actualImageScaleType="focusCrop"
