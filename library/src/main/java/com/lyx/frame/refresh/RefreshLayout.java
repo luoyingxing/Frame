@@ -876,12 +876,14 @@ public class RefreshLayout extends ViewGroup {
         if (mContentView instanceof ScrollView) {
             Rect local = new Rect();
             mContentView.getLocalVisibleRect(local);
-            //TODO 1、向下滚动时，若没有到达ScrollView的底部，则拦截事件  2、当向上滑动时，若没有到达顶部，则拦截事件
+            //TODO 1、向下滚动时，若没有到达ScrollView的顶部，则拦截事件  2、当向上滑动时，若没有到达底部，则拦截事件
 
             int scrollY = mContentView.getScrollY();
             float total = ((ViewGroup) mContentView).getChildAt(0).getMeasuredHeight();
 
-            if (local.bottom < total && (local.top != 0 || scrollY != 0)) {
+            float newY = ev.getY() - mLastY;
+
+            if ((local.top > 0 || scrollY != 0 || newY <= 0) && (local.bottom < total || scrollY <= 0 || newY >= 0)) {
                 return super.dispatchTouchEvent(ev);
             }
         }
