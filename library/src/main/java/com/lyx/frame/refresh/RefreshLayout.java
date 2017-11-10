@@ -513,7 +513,7 @@ public class RefreshLayout extends ViewGroup {
     }
 
     private void updateRadio() {
-        mRadio = (float) (4 + 4 * Math.tan(Math.PI / 2 / getMeasuredHeight() * (mPullDownY + Math.abs(mPullUpY))));
+        mRadio = (float) (2 + 2 * Math.tan(Math.PI / 2 / getMeasuredHeight() * (mPullDownY + Math.abs(mPullUpY))));
     }
 
     private void updateLayout() {
