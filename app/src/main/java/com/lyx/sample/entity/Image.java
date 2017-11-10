@@ -1,5 +1,7 @@
 package com.lyx.sample.entity;
 
+import com.lyx.frame.annotation.ImageUrl;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,6 +16,7 @@ import java.util.Locale;
 
 public class Image {
     private String title;
+    @ImageUrl
     private String url;
     private int type;
 

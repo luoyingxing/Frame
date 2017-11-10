@@ -28,4 +28,7 @@
     <string name="menu_main_navigation_title_more">More</string>
     <string name="menu_main_navigation_title_Setting">Setting</string>
 
+    <string name="refresh_up_to_load_more">上拉加载更多</string>
+    <string name="refresh_up_to_refresh">下拉刷新</string>
+
 </resources>

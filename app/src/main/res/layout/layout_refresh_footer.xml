@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.lyx.frame.refresh.FooterLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/refresh_footer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:gravity="center"
+    app:arrows_down="@drawable/ic_refresh_arrow_down_theme"
+    app:arrows_up="@drawable/ic_refresh_arrow_up_theme">
+
+    <ImageView
+        android:id="@+id/refresh_footer_arrows"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_refresh_arrow_up_theme" />
+
+    <ProgressBar
+        android:id="@+id/refresh_footer_progress_bar"
+        style="?android:attr/progressBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:indeterminateDrawable="@drawable/ic_refresh_progressbar"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/refresh_footer_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/refresh_footer_progress_bar"
+        android:layout_toRightOf="@+id/refresh_footer_progress_bar"
+        android:paddingBottom="20dp"
+        android:paddingLeft="14dp"
+        android:paddingRight="14dp"
+        android:paddingTop="20dp"
+        android:text="@string/refresh_up_to_load_more"
+        android:textSize="15sp" />
+
+</com.lyx.frame.refresh.FooterLayout>
