@@ -1,6 +1,7 @@
 package com.lyx.frame.widget;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.CornerPathEffect;
@@ -18,6 +19,7 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.lyx.frame.R;
 import com.lyx.frame.annotation.TabText;
 
 import java.lang.reflect.Field;
@@ -67,7 +69,7 @@ public class ViewPagerIndicator<T> extends LinearLayout {
     /**
      * 默认的Tab数量
      */
-    private static final int COUNT_DEFAULT_TAB = 0;
+    private static final int COUNT_DEFAULT_TAB = 4;
     /**
      * tab数量
      */
@@ -97,6 +99,14 @@ public class ViewPagerIndicator<T> extends LinearLayout {
 
     public ViewPagerIndicator(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+        // 获得自定义属性，tab的数量
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ViewPageIndicator);
+        mTabVisibleCount = a.getInt(R.styleable.ViewPageIndicator_tab_count, COUNT_DEFAULT_TAB);
+        if (mTabVisibleCount < 0) {
+            mTabVisibleCount = COUNT_DEFAULT_TAB;
+        }
+        a.recycle();
 
         // 初始化画笔
         mPaint = new Paint();
