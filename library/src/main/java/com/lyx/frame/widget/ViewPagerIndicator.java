@@ -155,6 +155,7 @@ public class ViewPagerIndicator<T> extends LinearLayout {
         if (list != null && list.size() > 0) {
             this.removeAllViews();
             this.mTabTitles = list;
+            mTabVisibleCount = mTabTitles.size();
 
             for (T obj : mTabTitles) {
                 addView(generateTextView(getImageUrl(obj)));
@@ -162,7 +163,6 @@ public class ViewPagerIndicator<T> extends LinearLayout {
             // 设置item的click事件
             setItemClickEvent();
         }
-
     }
 
     private String getImageUrl(T obj) {
