@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import com.lyx.sample.Constant;
 import com.lyx.sample.R;
-import com.lyx.sample.utils.Logger;
+import com.lyx.frame.utils.Logger;
 
 import java.util.ArrayList;
 import java.util.List;

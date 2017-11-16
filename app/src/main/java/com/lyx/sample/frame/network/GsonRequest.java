@@ -2,11 +2,11 @@ package com.lyx.sample.frame.network;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.lyx.sample.App;
 import com.lyx.sample.Constant;
-import com.lyx.sample.utils.FileUtils;
-import com.lyx.sample.utils.Logger;
+import com.lyx.frame.utils.FileUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.yolanda.nohttp.Headers;
@@ -231,7 +231,7 @@ public class GsonRequest<T> extends RestRequest<T> {
 
     protected void onError(ApiMsg apiMsg) {
         if (mContext != null) {
-            Logger.showToast(mContext, apiMsg.getMsg());
+            Toast.makeText(mContext, apiMsg.getMsg(), Toast.LENGTH_SHORT).show();
         }
     }
 

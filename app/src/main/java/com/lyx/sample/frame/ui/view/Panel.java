@@ -7,8 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.PopupWindow;
 
-import com.lyx.sample.utils.DpiUtils;
-
+import com.lyx.frame.utils.DpiUtils;
 
 /**
  * Panel
@@ -41,8 +40,8 @@ public class Panel extends PopupWindow {
         mRootView = LayoutInflater.from(context).inflate(getLayoutResource(), null);
         setContentView(mRootView);
 
-        setWidth(DpiUtils.getWidth());
-        setHeight(DpiUtils.getHeight());
+        setWidth(DpiUtils.getWidth(mContext));
+        setHeight(DpiUtils.getHeight(mContext));
 
         setFocusable(true);
         setOutsideTouchable(true);

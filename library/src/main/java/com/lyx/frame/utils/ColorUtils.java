@@ -1,4 +1,4 @@
-package com.lyx.sample.utils;
+package com.lyx.frame.utils;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -16,16 +16,6 @@ import java.util.Random;
  * Created by luoyingxing on 2017/5/18.
  */
 public class ColorUtils {
-    public static View getViewByPosition(ListView listView, int position) {
-        final int firstListItemPosition = listView.getFirstVisiblePosition();
-        final int lastListItemPosition = firstListItemPosition + listView.getChildCount() - 1;
-        if (position < firstListItemPosition || position > lastListItemPosition) {
-            return listView.getAdapter().getView(position, null, listView);
-        } else {
-            final int childIndex = position - firstListItemPosition;
-            return listView.getChildAt(childIndex);
-        }
-    }
 
     /**
      * 返回随机不重复的5种颜色

@@ -9,7 +9,7 @@ import com.google.gson.Gson;
 import com.lyx.sample.frame.exception.CrashHandler;
 import com.lyx.sample.entity.UserInfo;
 import com.lyx.sample.frame.network.MyNoHttp;
-import com.lyx.sample.utils.FileUtils;
+import com.lyx.frame.utils.FileUtils;
 
 /**
  * App

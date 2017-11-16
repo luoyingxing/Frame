@@ -2,7 +2,6 @@ package com.lyx.sample.frame;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -11,8 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lyx.sample.App;
@@ -20,8 +17,8 @@ import com.lyx.sample.R;
 import com.lyx.sample.frame.network.MyNoHttp;
 import com.lyx.sample.frame.ui.view.BaseToolBar;
 import com.lyx.sample.frame.ui.view.LoadingDialog;
-import com.lyx.sample.utils.Logger;
-import com.lyx.sample.utils.NetworkUtils;
+import com.lyx.frame.utils.Logger;
+import com.lyx.frame.utils.NetworkUtils;
 
 
 /**
@@ -215,7 +212,7 @@ public class BaseFragment extends HandleFragment {
     }
 
     public boolean checkNetwork() {
-        if (NetworkUtils.isNetConnected()) {
+        if (NetworkUtils.isNetConnected(getContext())) {
             return true;
         }
         showNetworkError();

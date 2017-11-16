@@ -1,12 +1,9 @@
-package com.lyx.sample.utils;
+package com.lyx.frame.utils;
 
 import android.content.Context;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-
-
-import com.lyx.sample.App;
 
 import java.util.List;
 
@@ -17,24 +14,17 @@ import java.util.List;
  */
 public class NetworkUtils {
 
-    public static Context mContext = App.getAppContext();
-
-    public static void setContext(Context context) {
-        mContext = context;
-    }
-
     /**
      * 检测网络是否连接
      *
-     * @return
+     * @return boolean
      */
-    public static boolean isNetConnected() {
-        ConnectivityManager cm = (ConnectivityManager) mContext
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
+    public static boolean isNetConnected(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (cm != null) {
-            NetworkInfo[] infos = cm.getAllNetworkInfo();
-            if (infos != null) {
-                for (NetworkInfo ni : infos) {
+            NetworkInfo[] info = cm.getAllNetworkInfo();
+            if (info != null) {
+                for (NetworkInfo ni : info) {
                     if (ni.isConnected()) {
                         return true;
                     }
@@ -47,11 +37,10 @@ public class NetworkUtils {
     /**
      * 检测wifi是否连接
      *
-     * @return
+     * @return boolean
      */
-    public static boolean isWifiConnected() {
-        ConnectivityManager cm = (ConnectivityManager) mContext
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
+    public static boolean isWifiConnected(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (cm != null) {
             NetworkInfo networkInfo = cm.getActiveNetworkInfo();
             if (networkInfo != null
@@ -65,15 +54,13 @@ public class NetworkUtils {
     /**
      * 检测3G是否连接
      *
-     * @return
+     * @return boolean
      */
-    public static boolean is3gConnected() {
-        ConnectivityManager cm = (ConnectivityManager) mContext
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
+    public static boolean is3gConnected(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (cm != null) {
             NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-            if (networkInfo != null
-                    && networkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
+            if (networkInfo != null && networkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
                 return true;
             }
         }
@@ -83,11 +70,10 @@ public class NetworkUtils {
     /**
      * 检测GPS是否打开
      *
-     * @return
+     * @return boolean
      */
-    public static boolean isGpsEnabled() {
-        LocationManager lm = (LocationManager) mContext
-                .getSystemService(Context.LOCATION_SERVICE);
+    public static boolean isGpsEnabled(Context context) {
+        LocationManager lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         List<String> accessibleProviders = lm.getProviders(true);
         for (String name : accessibleProviders) {
             if ("gps".equals(name)) {

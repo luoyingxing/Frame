@@ -1,19 +1,15 @@
-package com.lyx.sample.utils;
+package com.lyx.frame.utils;
 
 import android.content.Context;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
-import com.lyx.sample.App;
-
-
 /**
- * DpiUtils
+ * DpiUtils first use you should init Context
  * <p/>
  * Created by luoyingxing on 2017/5/18.
  */
 public class DpiUtils {
-
     private static final String TAG = "DpiUtils";
 
     // 当前屏幕的densityDpi
@@ -30,10 +26,6 @@ public class DpiUtils {
     private static float mScaleX = 1.0f;
     private static float mScaleY = 1.0f;
 
-    static {
-        setContext(App.getAppContext());
-    }
-
     /**
      * 根据构造函数获得当前手机的屏幕系数
      */
@@ -46,17 +38,14 @@ public class DpiUtils {
         mHeight = mDisplayMetrics.heightPixels;
         // 密度因子
         mScale = getDmDensityDpi() / 160;
-        Log.i(TAG, " dmDensityDpi:" + mDmDensityDpi + " mWidth:" + mWidth
-                + " mHeight:" + mHeight);
+        Log.i(TAG, " dmDensityDpi:" + mDmDensityDpi + " mWidth:" + mWidth + " mHeight:" + mHeight);
     }
 
     /**
      * 密度转换像素
      */
     public static int dipTopx(float dipValue) {
-
         return (int) (dipValue * mScale + 0.5f);
-
     }
 
     /**
@@ -85,6 +74,26 @@ public class DpiUtils {
     }
 
     /**
+     * 获取设备屏幕宽度
+     *
+     * @param context 上下文Context
+     * @return 屏幕宽度
+     */
+    public static int getWidth(Context context) {
+        return context.getResources().getDisplayMetrics().widthPixels;
+    }
+
+    /**
+     * 获取设备屏幕高度
+     *
+     * @param context 上下文Context
+     * @return 屏幕高度
+     */
+    public static int getHeight(Context context) {
+        return context.getResources().getDisplayMetrics().heightPixels;
+    }
+
+    /**
      * 获取设备的屏幕高度(Pixels)
      *
      * @return mHeight
@@ -96,7 +105,7 @@ public class DpiUtils {
     /**
      * 设计分辨率
      */
-    public static void SetDesignResolution(int width, int height) {
+    public static void setDesignResolution(int width, int height) {
         mDesignWidth = width;
         mDesignHeight = height;
         mScaleX = (float) mWidth / mDesignWidth;
@@ -107,7 +116,7 @@ public class DpiUtils {
     /**
      * 返回横向缩放比例
      *
-     * @return
+     * @return float
      */
     public static float getScaleX() {
         return mScaleX;
@@ -116,7 +125,7 @@ public class DpiUtils {
     /**
      * 返回纵向缩放比例
      *
-     * @return
+     * @return float
      */
     public static float getScaleY() {
         return mScaleY;
@@ -125,8 +134,8 @@ public class DpiUtils {
     /**
      * 将设计坐标点的横坐标x转换成实际像素点的x
      *
-     * @param x
-     * @return
+     * @param x 横坐标
+     * @return int
      */
     public static int toRealX(int x) {
         return (int) (x * mScaleX);
@@ -135,8 +144,8 @@ public class DpiUtils {
     /**
      * 将设计坐标点的纵坐标y转换成实际像素点的y
      *
-     * @param y
-     * @return
+     * @param y 纵坐标
+     * @return int
      */
     public static int toRealY(int y) {
         return (int) (y * mScaleY);
@@ -146,7 +155,7 @@ public class DpiUtils {
      * 将实际像素点的x转换成设计坐标点的横坐标x
      *
      * @param x
-     * @return
+     * @return int
      */
     public static int toDesignX(int x) {
         return (int) (x / mScaleX);
@@ -156,7 +165,7 @@ public class DpiUtils {
      * 将实际像素点的y转换成设计坐标点的纵坐标y
      *
      * @param y
-     * @return
+     * @return int
      */
     public static int toDesignY(int y) {
         return (int) (y / mScaleY);

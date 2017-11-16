@@ -1,11 +1,8 @@
-package com.lyx.sample.utils;
+package com.lyx.frame.utils;
 
-import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.lyx.sample.App;
-import com.lyx.sample.BuildConfig;
+import com.lyx.frame.BuildConfig;
 
 
 /**
@@ -14,7 +11,7 @@ import com.lyx.sample.BuildConfig;
  * Created by luoyingxing on 2017/5/18.
  */
 public class Logger {
-    private static final String prefix = "===>>>";
+    private static final String mPrefix = "===>>>";
     private String mTag;
     private int mPriority;
 
@@ -28,7 +25,7 @@ public class Logger {
      * @see Log {@link Log}
      */
     public Logger(String tag, int priority) {
-        mTag = prefix + tag;
+        mTag = mPrefix + tag;
         mPriority = priority;
     }
 
@@ -55,22 +52,6 @@ public class Logger {
     public static void e(String tag, Object msg) {
         if (BuildConfig.DEBUG)
             Log.e(tag, "" + msg);
-    }
-
-    public static void showToast(Object msg) {
-        Toast.makeText(App.getAppContext(), "" + msg, Toast.LENGTH_SHORT).show();
-    }
-
-    public static void showToast(Context context, Object msg) {
-        Toast.makeText(context, "" + msg, Toast.LENGTH_SHORT).show();
-    }
-
-    public static void showLongToast(Context context, Object msg) {
-        Toast.makeText(context, "" + msg, Toast.LENGTH_LONG).show();
-    }
-
-    public static void showNetworkError(Context context) {
-        showToast(context, "当前网络不可用，请检查网络设置。");
     }
 
     public void v(Object msg) {

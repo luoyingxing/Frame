@@ -21,7 +21,7 @@ import android.widget.ImageView.ScaleType;
 import com.lyx.sample.frame.picture.gestures.OnGestureListener;
 import com.lyx.sample.frame.picture.gestures.VersionedGestureDetector;
 import com.lyx.sample.frame.picture.scroller.ScrollerProxy;
-import com.lyx.sample.utils.Logger;
+import com.lyx.frame.utils.Logger;
 
 import java.lang.ref.WeakReference;
 

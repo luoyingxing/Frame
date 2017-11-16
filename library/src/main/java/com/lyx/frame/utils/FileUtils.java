@@ -1,4 +1,4 @@
-package com.lyx.sample.utils;
+package com.lyx.frame.utils;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -7,9 +7,6 @@ import android.os.StatFs;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
-
-
-import com.lyx.sample.App;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -34,9 +31,12 @@ import static android.os.Environment.MEDIA_MOUNTED;
  * Created by luoyingxing on 2017/5/18.
  */
 public class FileUtils {
+    private static Logger mLog = new Logger(FileUtils.class.getSimpleName(), Log.ERROR);
+    private static Context mContext;
 
-    private static Logger mlog = new Logger(FileUtils.class.getSimpleName(), Log.ERROR);
-    private static Context mContext = App.getAppContext();
+    public void setContext(Context context) {
+        mContext = context;
+    }
 
     /**
      * 写入文本文件
@@ -51,7 +51,7 @@ public class FileUtils {
             fos.write(content.getBytes());
             fos.close();
         } catch (Exception e) {
-            mlog.e(e.getMessage());
+            mLog.e(e.getMessage());
         }
     }
 
@@ -66,7 +66,7 @@ public class FileUtils {
             FileInputStream in = mContext.openFileInput(fileName);
             return readInStream(in);
         } catch (Exception e) {
-            mlog.e(e.getMessage());
+            mLog.e(e.getMessage());
         }
         return "";
     }
@@ -86,7 +86,7 @@ public class FileUtils {
             inStream.close();
             return outStream.toString();
         } catch (IOException e) {
-            mlog.e(e.getMessage());
+            mLog.e(e.getMessage());
         }
         return "";
     }
@@ -119,14 +119,14 @@ public class FileUtils {
             out.write(buffer);
             writeSucc = true;
         } catch (Exception e) {
-            mlog.e(e.getMessage());
+            mLog.e(e.getMessage());
         } finally {
             if (out != null) {
                 try {
 
                     out.close();
                 } catch (IOException e) {
-                    mlog.e(e.getMessage());
+                    mLog.e(e.getMessage());
                 }
             }
         }
@@ -348,10 +348,10 @@ public class FileUtils {
                         deletedFile.delete();
                     }
                     newPath.delete();
-                    mlog.i("deleteDirectory" + folderName);
+                    mLog.i("deleteDirectory" + folderName);
                     return true;
                 } catch (Exception e) {
-                    mlog.e(e.getMessage());
+                    mLog.e(e.getMessage());
                 }
             }
         }

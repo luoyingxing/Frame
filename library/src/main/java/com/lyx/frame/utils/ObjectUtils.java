@@ -1,5 +1,4 @@
-package com.lyx.sample.utils;
-
+package com.lyx.frame.utils;
 
 import com.lyx.frame.annotation.Renewal;
 

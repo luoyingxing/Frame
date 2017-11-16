@@ -1,4 +1,4 @@
-package com.lyx.sample.utils;
+package com.lyx.frame.utils;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;

@@ -1,4 +1,4 @@
-package com.lyx.sample.utils;
+package com.lyx.frame.utils;
 
 import android.content.Context;
 import android.os.Build;
@@ -9,19 +9,12 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.lyx.sample.R;
-
-
 /**
  * WindowUtils
  * <p/>
  * Created by luoyingxing on 2017/5/18.
  */
 public class WindowUtils {
-
-    public static void statusBar(AppCompatActivity activity) {
-        statusBar(activity, R.color.theme_color);
-    }
 
     public static void statusBar(AppCompatActivity activity, int color) {
         // only for sdk >= 19

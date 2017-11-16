@@ -1,4 +1,4 @@
-package com.lyx.sample.utils;
+package com.lyx.frame.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,28 +14,28 @@ import java.util.Locale;
 public class TimeUtils {
 
     public static String longToDatetime(long time) {
-        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-        return dateformat.format(new Date(Long.valueOf(time)));
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        return format.format(new Date(Long.valueOf(time)));
     }
 
     public static String longToDate(long time) {
-        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        return dateformat.format(new Date(Long.valueOf(time)));
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        return format.format(new Date(Long.valueOf(time)));
     }
 
     public static String longToMonthDay(long time) {
-        SimpleDateFormat dateformat = new SimpleDateFormat("MM-dd", Locale.getDefault());
-        return dateformat.format(new Date(Long.valueOf(time)));
+        SimpleDateFormat format = new SimpleDateFormat("MM-dd", Locale.getDefault());
+        return format.format(new Date(Long.valueOf(time)));
     }
 
     public static String longToTime(long time) {
-        SimpleDateFormat dateformat = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
-        return dateformat.format(new Date(Long.valueOf(time)));
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
+        return format.format(new Date(Long.valueOf(time)));
     }
 
     public static String longToHourMinute(long time) {
-        SimpleDateFormat dateformat = new SimpleDateFormat("HH:mm", Locale.getDefault());
-        return dateformat.format(new Date(Long.valueOf(time)));
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        return format.format(new Date(Long.valueOf(time)));
     }
 
     public static String currentDateTime() {
@@ -62,8 +62,7 @@ public class TimeUtils {
     }
 
     public static long datetimeToLong(String time) {
-        SimpleDateFormat dateformat = new SimpleDateFormat(
-                "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         long longTime = 0;
         try {
             longTime = dateformat.parse(time).getTime();
@@ -73,17 +72,13 @@ public class TimeUtils {
         return longTime;
     }
 
-    public static boolean isInScope(long startTime, long endTime,
-                                    long currentTime) {
+    public static boolean isInScope(long startTime, long endTime, long currentTime) {
         return startTime < currentTime && currentTime < endTime;
     }
 
-    public static boolean isInScope(String hourMinute1, String hourMinute2,
-                                    long currentTime) {
-        long time1 = datetimeToLong(longToDate(currentTime) + " " + hourMinute1
-                + ":00");
-        long time2 = datetimeToLong(longToDate(currentTime) + " " + hourMinute2
-                + ":00");
+    public static boolean isInScope(String hourMinute1, String hourMinute2, long currentTime) {
+        long time1 = datetimeToLong(longToDate(currentTime) + " " + hourMinute1 + ":00");
+        long time2 = datetimeToLong(longToDate(currentTime) + " " + hourMinute2 + ":00");
         return isInScope(time1, time2, currentTime);
     }
 

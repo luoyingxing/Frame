@@ -1,7 +1,8 @@
-package com.lyx.sample.utils;
+package com.lyx.frame.utils;
 
 import android.content.Context;
 import android.graphics.drawable.Animatable;
+import android.support.annotation.DrawableRes;
 import android.util.Log;
 import android.view.ViewGroup;
 
@@ -14,7 +15,6 @@ import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.DraweeHolder;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.imagepipeline.image.ImageInfo;
-import com.lyx.sample.R;
 
 /**
  * FrescoBuilder
@@ -26,23 +26,25 @@ public class FrescoBuilder {
     private Context mContext;
     private SimpleDraweeView mView;
     private String mUrl;
+    private int mPlaceholderImageId;
 
-    public FrescoBuilder(Context context, SimpleDraweeView imageView, String url) {
+    public FrescoBuilder(Context context, SimpleDraweeView imageView, String url, @DrawableRes int placeholderImageId) {
         mContext = context;
         mView = imageView;
         mUrl = url;
+        mPlaceholderImageId = placeholderImageId;
     }
 
     public void builder() {
-        loadImage(mView, mUrl);
+        loadImage(mView, mUrl, mPlaceholderImageId);
     }
 
-    private void loadImage(final SimpleDraweeView imageView, String uri) {
+    private void loadImage(final SimpleDraweeView imageView, String uri, @DrawableRes int placeholderImageId) {
         GenericDraweeHierarchy hierarchy =
                 new GenericDraweeHierarchyBuilder(mContext.getResources())
                         .setFadeDuration(1000)
-                        .setPlaceholderImage(mContext.getResources().getDrawable(R.mipmap.image_empty_fresco), ScalingUtils.ScaleType.CENTER_INSIDE)
-                        .setFailureImage(mContext.getResources().getDrawable(R.mipmap.image_empty_fresco), ScalingUtils.ScaleType.CENTER_INSIDE)
+                        .setPlaceholderImage(mContext.getResources().getDrawable(placeholderImageId), ScalingUtils.ScaleType.CENTER_INSIDE)
+                        .setFailureImage(mContext.getResources().getDrawable(placeholderImageId), ScalingUtils.ScaleType.CENTER_INSIDE)
                         .setActualImageScaleType(ScalingUtils.ScaleType.FIT_XY)
                         .build();
         DraweeHolder mDrawHolder = DraweeHolder.create(hierarchy, mContext);

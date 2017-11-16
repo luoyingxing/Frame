@@ -1,4 +1,4 @@
-package com.lyx.sample.utils;
+package com.lyx.frame.utils;
 
 import android.content.Context;
 import android.net.Uri;
@@ -15,8 +15,6 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.imagepipeline.common.ResizeOptions;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
-import com.lyx.sample.App;
-import com.lyx.sample.R;
 
 /**
  * FrescoUtils
@@ -26,10 +24,20 @@ import com.lyx.sample.R;
 
 public class FrescoUtils {
     private static RoundingParams circleParams;
+    private static Context mContext;
+    private static int mPlaceholderImage;
 
     static {
         circleParams = new RoundingParams();
         circleParams.setRoundAsCircle(true);
+    }
+
+    public void setContext(Context context) {
+        mContext = context;
+    }
+
+    public void setPlaceholderImage(@DrawableRes int placeholderImage) {
+        mPlaceholderImage = placeholderImage;
     }
 
     public static RoundingParams getCircleParams() {
@@ -71,10 +79,10 @@ public class FrescoUtils {
 
     public static void loadImage(Uri uri, SimpleDraweeView view) {
         GenericDraweeHierarchy hierarchy =
-                new GenericDraweeHierarchyBuilder(App.getAppContext().getResources())
+                new GenericDraweeHierarchyBuilder(mContext.getResources())
                         .setFadeDuration(300)
-                        .setPlaceholderImage(App.getAppContext().getResources().getDrawable(R.mipmap.image_empty_fresco), ScalingUtils.ScaleType.CENTER_INSIDE)
-                        .setFailureImage(App.getAppContext().getResources().getDrawable(R.mipmap.image_empty_fresco), ScalingUtils.ScaleType.CENTER_INSIDE)
+                        .setPlaceholderImage(mContext.getResources().getDrawable(mPlaceholderImage), ScalingUtils.ScaleType.CENTER_INSIDE)
+                        .setFailureImage(mContext.getResources().getDrawable(mPlaceholderImage), ScalingUtils.ScaleType.CENTER_INSIDE)
                         .setActualImageScaleType(ScalingUtils.ScaleType.CENTER_INSIDE)
                         .build();
         view.setHierarchy(hierarchy);
@@ -83,9 +91,9 @@ public class FrescoUtils {
 
     public static void loadImage(Uri uri, SimpleDraweeView view, int width, int height) {
         GenericDraweeHierarchy hierarchy =
-                new GenericDraweeHierarchyBuilder(App.getAppContext().getResources())
+                new GenericDraweeHierarchyBuilder(mContext.getResources())
                         .setFadeDuration(300)
-                        .setPlaceholderImage(App.getAppContext().getResources().getDrawable(R.mipmap.image_empty_fresco), ScalingUtils.ScaleType.CENTER_INSIDE)
+                        .setPlaceholderImage(mContext.getResources().getDrawable(mPlaceholderImage), ScalingUtils.ScaleType.CENTER_INSIDE)
                         .setActualImageScaleType(ScalingUtils.ScaleType.CENTER_INSIDE)
                         .build();
         ImageRequest request = ImageRequestBuilder.newBuilderWithSource(uri)
@@ -109,10 +117,10 @@ public class FrescoUtils {
      */
     public static void loadImageAsCircle(Uri uri, SimpleDraweeView view) {
         GenericDraweeHierarchy hierarchy =
-                new GenericDraweeHierarchyBuilder(App.getAppContext().getResources())
+                new GenericDraweeHierarchyBuilder(mContext.getResources())
                         .setFadeDuration(300)
                         .setRoundingParams(circleParams)
-                        .setPlaceholderImage(App.getAppContext().getResources().getDrawable(R.mipmap.image_empty_fresco), ScalingUtils.ScaleType.CENTER_INSIDE)
+                        .setPlaceholderImage(mContext.getResources().getDrawable(mPlaceholderImage), ScalingUtils.ScaleType.CENTER_INSIDE)
                         .setActualImageScaleType(ScalingUtils.ScaleType.CENTER_INSIDE)
                         .build();
         view.setHierarchy(hierarchy);
@@ -160,9 +168,9 @@ public class FrescoUtils {
      */
     public static void loadGif(Uri uri, SimpleDraweeView view) {
         GenericDraweeHierarchy hierarchy =
-                new GenericDraweeHierarchyBuilder(App.getAppContext().getResources())
+                new GenericDraweeHierarchyBuilder(mContext.getResources())
                         .setFadeDuration(300)
-                        .setPlaceholderImage(App.getAppContext().getResources().getDrawable(R.mipmap.image_empty_fresco), ScalingUtils.ScaleType.CENTER_INSIDE)
+                        .setPlaceholderImage(mContext.getResources().getDrawable(mPlaceholderImage), ScalingUtils.ScaleType.CENTER_INSIDE)
                         .setActualImageScaleType(ScalingUtils.ScaleType.FIT_XY)
                         .build();
         DraweeController controller = Fresco.newDraweeControllerBuilder()
@@ -176,9 +184,9 @@ public class FrescoUtils {
 
     public static void loadGif(Uri uri, SimpleDraweeView view, int width, int height) {
         GenericDraweeHierarchy hierarchy =
-                new GenericDraweeHierarchyBuilder(App.getAppContext().getResources())
+                new GenericDraweeHierarchyBuilder(mContext.getResources())
                         .setFadeDuration(300)
-                        .setPlaceholderImage(App.getAppContext().getResources().getDrawable(R.mipmap.image_empty_fresco), ScalingUtils.ScaleType.CENTER_INSIDE)
+                        .setPlaceholderImage(mContext.getResources().getDrawable(mPlaceholderImage), ScalingUtils.ScaleType.CENTER_INSIDE)
                         .setActualImageScaleType(ScalingUtils.ScaleType.FIT_XY)
                         .build();
 
