@@ -1,4 +1,4 @@
-package com.lyx.sample.frame.picture.gestures;
+package com.lyx.frame.widget.picture.gestures;
 
 import android.annotation.TargetApi;
 import android.content.Context;

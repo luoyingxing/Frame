@@ -1,4 +1,4 @@
-package com.lyx.sample.frame.picture;
+package com.lyx.frame.widget.picture;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -18,9 +18,9 @@ import android.view.animation.Interpolator;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 
-import com.lyx.sample.frame.picture.gestures.OnGestureListener;
-import com.lyx.sample.frame.picture.gestures.VersionedGestureDetector;
-import com.lyx.sample.frame.picture.scroller.ScrollerProxy;
+import com.lyx.frame.widget.picture.gestures.OnGestureListener;
+import com.lyx.frame.widget.picture.gestures.VersionedGestureDetector;
+import com.lyx.frame.widget.picture.scroller.ScrollerProxy;
 import com.lyx.frame.utils.Logger;
 
 import java.lang.ref.WeakReference;
@@ -107,7 +107,7 @@ public class PictureViewAttach implements IPicture, View.OnTouchListener, OnGest
 
     // Gesture Detectors
     private GestureDetector mGestureDetector;
-    private com.lyx.sample.frame.picture.gestures.GestureDetector mScaleDragDetector;
+    private com.lyx.frame.widget.picture.gestures.GestureDetector mScaleDragDetector;
 
     // These are set so we don't keep allocating them on the heap
     private final Matrix mBaseMatrix = new Matrix();

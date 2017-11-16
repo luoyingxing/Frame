@@ -1,4 +1,4 @@
-package com.lyx.sample.frame.picture.scroller;
+package com.lyx.frame.widget.picture.scroller;
 
 import android.content.Context;
 import android.widget.Scroller;

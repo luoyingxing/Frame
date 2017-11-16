@@ -1,9 +1,10 @@
-package com.lyx.sample.frame.picture;
+package com.lyx.frame.widget.picture;
 
 import android.app.Dialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -13,32 +14,32 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.lyx.sample.R;
+import com.lyx.frame.R;
+import com.lyx.frame.annotation.ImageUrl;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-
 
 /**
  * PictureDialog
  * <p>
  * Created by luoyingxing on 2017/5/2.
  */
-@SuppressWarnings("unused")
-public class PictureDialog extends Dialog implements ViewPager.OnPageChangeListener {
+public class PictureDialog<T> extends Dialog implements ViewPager.OnPageChangeListener {
     public static int LOCAL = 0x0001; //1: 本地图片
     public static int REMOTE = 0x0002; //2: 网络图片
     public static int PROCEDURE = 0x0003; //3: 程序内图片
     private Context mContext;
     private DialogViewPage mViewPager;
     private TextView mTextView;
-
     private int mType;
-    private List<String> mUrlList = new ArrayList<>();
+    private List<T> mUrlList = new ArrayList<>();
     private List<Integer> mIdList = new ArrayList<>();
     private ViewAdapter mAdapter;
     private int mPagerSize;
     private int mCurrentPage = 0;
+    private int mPalaceHolderImage;
 
     public PictureDialog(Context context) {
         this(context, R.style.PictureDialog);
@@ -49,20 +50,35 @@ public class PictureDialog extends Dialog implements ViewPager.OnPageChangeListe
         this.mContext = context;
     }
 
-    public void setUri(List<String> list, int type) {
-        this.mUrlList = list;
+    /**
+     * 泛型对象的图片地址必须用{@ImageUrl}标注
+     *
+     * @param UrlList List
+     * @param type    LOCAL/REMOTE/PROCEDURE
+     * @return PictureDialog
+     */
+    public PictureDialog setImageUrl(List<T> UrlList, int type) {
+        this.mUrlList = UrlList;
         this.mType = type;
+        return this;
     }
 
-    public void setId(List<Integer> list, int type) {
+    public PictureDialog setImageId(List<Integer> list, int type) {
         this.mIdList = list;
         this.mType = type;
+        return this;
     }
 
-    public void setId(int id, int type) {
+    public PictureDialog setImageId(@DrawableRes int id, int type) {
         this.mIdList.clear();
         this.mIdList.add(id);
         this.mType = type;
+        return this;
+    }
+
+    public PictureDialog setPalaceHolderImage(@DrawableRes int palaceHolderImage) {
+        mPalaceHolderImage = palaceHolderImage;
+        return this;
     }
 
     @Override
@@ -82,15 +98,16 @@ public class PictureDialog extends Dialog implements ViewPager.OnPageChangeListe
         showViewPage();
     }
 
-    public void showPager(int position) {
-        if (null == mAdapter) {
+    public PictureDialog showPosition(int position) {
+        if (mAdapter == null) {
             mCurrentPage = position;
         } else {
             mViewPager.setCurrentItem(position);
         }
+        return this;
     }
 
-    private void showViewPage() {
+    private PictureDialog showViewPage() {
         if (!mUrlList.isEmpty()) {
             mPagerSize = mUrlList.size();
         } else if (!mIdList.isEmpty()) {
@@ -102,6 +119,7 @@ public class PictureDialog extends Dialog implements ViewPager.OnPageChangeListe
         mAdapter = new ViewAdapter();
         mViewPager.setAdapter(mAdapter);
         mViewPager.setCurrentItem(mCurrentPage);
+        return this;
     }
 
     @Override
@@ -125,8 +143,8 @@ public class PictureDialog extends Dialog implements ViewPager.OnPageChangeListe
         }
 
         @Override
-        public boolean isViewFromObject(View arg0, Object arg1) {
-            return arg0 == arg1;
+        public boolean isViewFromObject(View view, Object object) {
+            return view == object;
         }
 
         @Override
@@ -138,13 +156,15 @@ public class PictureDialog extends Dialog implements ViewPager.OnPageChangeListe
         public Object instantiateItem(ViewGroup container, int position) {
             View root = LayoutInflater.from(mContext).inflate(R.layout.layout_picture_dialog_show, mViewPager, false);
             PictureView pictureView = (PictureView) root.findViewById(R.id.pv_picture_dialog);
-            pictureView.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.image_empty_fresco));
+            if (0 != mPalaceHolderImage) {
+                pictureView.setImageDrawable(mContext.getResources().getDrawable(mPalaceHolderImage));
+            }
             switch (mType) {
                 case 1:
-                    pictureView.setImageURI(Uri.parse(mUrlList.get(position)));
+                    pictureView.setImageURI(Uri.parse(getImageUrl(mUrlList.get(position))));
                     break;
                 case 2:
-                    pictureView.setImageUri(mUrlList.get(position));
+                    pictureView.setImageUrl(getImageUrl(mUrlList.get(position)));
                     break;
                 case 3:
                     pictureView.setImageResource(mIdList.get(position));
@@ -155,4 +175,24 @@ public class PictureDialog extends Dialog implements ViewPager.OnPageChangeListe
         }
     }
 
+    private String getImageUrl(T obj) {
+        if (obj instanceof String) {
+            //如果是String类型，直接返回
+            return (String) obj;
+        }
+
+        Field[] fields = obj.getClass().getDeclaredFields();
+        for (Field field : fields) {
+            if (field.isAnnotationPresent(ImageUrl.class)) {
+                try {
+                    field.setAccessible(true);
+                    return (String) field.get(obj);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+        }
+        return null;
+    }
 }

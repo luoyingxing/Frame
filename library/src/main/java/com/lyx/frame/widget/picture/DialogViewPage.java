@@ -1,4 +1,4 @@
-package com.lyx.sample.frame.picture;
+package com.lyx.frame.widget.picture;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

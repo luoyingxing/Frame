@@ -1,4 +1,4 @@
-package com.lyx.sample.frame.picture;
+package com.lyx.frame.widget.picture;
 
 import android.graphics.RectF;
 import android.view.GestureDetector;

@@ -1,11 +1,10 @@
-package com.lyx.sample.frame.picture.gestures;
+package com.lyx.frame.widget.picture.gestures;
 
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.view.MotionEvent;
 
-import com.lyx.sample.frame.picture.Compat;
-
+import com.lyx.frame.widget.picture.Compat;
 
 /**
  * EclairGestureDetector

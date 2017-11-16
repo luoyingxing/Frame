@@ -1,4 +1,4 @@
-package com.lyx.sample.frame.picture.gestures;
+package com.lyx.frame.widget.picture.gestures;
 
 import android.content.Context;
 import android.os.Build;

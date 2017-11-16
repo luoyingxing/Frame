@@ -14,12 +14,6 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="PictureDialog" parent="Base.Theme.AppCompat.Light.Dialog">
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowIsFloating">true</item>
-    </style>
-
     <style name="Animation_Panel">
         <item name="android:windowEnterAnimation">@anim/panel_in</item>
         <item name="android:windowExitAnimation">@anim/panel_out</item>

@@ -1,4 +1,4 @@
-package com.lyx.sample.frame.picture.gestures;
+package com.lyx.frame.widget.picture.gestures;
 
 import android.content.Context;
 import android.util.Log;
@@ -14,10 +14,10 @@ import android.view.ViewConfiguration;
 public class CupcakeGestureDetector implements GestureDetector {
     protected OnGestureListener mListener;
     private static final String LOG_TAG = "CupcakeGestureDetector";
-    float mLastTouchX;
-    float mLastTouchY;
-    final float mTouchSlop;
-    final float mMinimumVelocity;
+    protected float mLastTouchX;
+    protected  float mLastTouchY;
+    protected final float mTouchSlop;
+    protected final float mMinimumVelocity;
 
     @Override
     public void setOnGestureListener(OnGestureListener listener) {

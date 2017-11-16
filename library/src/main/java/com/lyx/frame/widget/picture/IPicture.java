@@ -1,4 +1,4 @@
-package com.lyx.sample.frame.picture;
+package com.lyx.frame.widget.picture;
 
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
@@ -13,10 +13,10 @@ import android.widget.ImageView;
  * Created by luoyingxing on 2017/5/2.
  */
 public interface IPicture {
-    public static final float DEFAULT_MAX_SCALE = 3.0f;
-    public static final float DEFAULT_MID_SCALE = 1.75f;
-    public static final float DEFAULT_MIN_SCALE = 1.0f;
-    public static final int DEFAULT_ZOOM_DURATION = 200;
+    float DEFAULT_MAX_SCALE = 3.0f;
+    float DEFAULT_MID_SCALE = 1.75f;
+    float DEFAULT_MIN_SCALE = 1.0f;
+    int DEFAULT_ZOOM_DURATION = 200;
 
     /**
      * Returns true if the PhotoView is set to allow zooming of Photos.
@@ -316,5 +316,5 @@ public interface IPicture {
      *
      * @param newOnDoubleTapListener custom OnDoubleTapListener to be set on ImageView
      */
-    public void setOnDoubleTapListener(GestureDetector.OnDoubleTapListener newOnDoubleTapListener);
+    void setOnDoubleTapListener(GestureDetector.OnDoubleTapListener newOnDoubleTapListener);
 }

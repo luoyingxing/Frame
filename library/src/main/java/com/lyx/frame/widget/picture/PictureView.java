@@ -1,4 +1,4 @@
-package com.lyx.sample.frame.picture;
+package com.lyx.frame.widget.picture;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -70,13 +69,18 @@ public class PictureView extends IPictureView {
         return false;
     }
 
-    public void setImageUri(final String uri) {
+    /**
+     * 可加载网络图片
+     *
+     * @param url String
+     */
+    public void setImageUrl(final String url) {
         Observable.create(new Observable.OnSubscribe<Bitmap>() {
             @Override
             public void call(Subscriber<? super Bitmap> subscriber) {
                 try {
-                    URL url = new URL(uri);
-                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    URL urlRequest = new URL(url);
+                    HttpURLConnection conn = (HttpURLConnection) urlRequest.openConnection();
                     conn.setDoInput(true);
                     conn.setConnectTimeout(TIME);
                     conn.setReadTimeout(TIME);
@@ -101,12 +105,12 @@ public class PictureView extends IPictureView {
 
                     @Override
                     public void onError(Throwable e) {
-                        Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
                     }
 
                     @Override
                     public void onNext(Bitmap bitmap) {
-                        PictureView.this.setImageBitmap(bitmap);
+                        setImageBitmap(bitmap);
                     }
                 });
     }
