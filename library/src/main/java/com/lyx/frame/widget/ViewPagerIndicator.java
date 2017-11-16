@@ -165,7 +165,6 @@ public class ViewPagerIndicator<T> extends LinearLayout {
         if (list != null && list.size() > 0) {
             this.removeAllViews();
             this.mTabTitles = list;
-            mTabVisibleCount = mTabTitles.size();
 
             for (T obj : mTabTitles) {
                 addView(generateTextView(getImageUrl(obj)));
