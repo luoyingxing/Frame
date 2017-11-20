@@ -26,7 +26,7 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 /**
- * ViewPagerIndicator  传入泛型实体时，需要使用{TabText}表明文字字段
+ * ViewPagerIndicator  传入泛型实体时，需要使用{@TabText}表明文字字段
  * <p/>
  * create by luoyingxing on 2016/10/09
  */
@@ -87,11 +87,11 @@ public class ViewPagerIndicator<T> extends LinearLayout {
     /**
      * 标题正常时的颜色
      */
-    private static final int COLOR_TEXT_NORMAL = 0x77FFFFFF;
+    private int mNormalColor;
     /**
      * 标题选中时的颜色
      */
-    private static final int COLOR_TEXT_HIGH_LIGHT_COLOR = 0xFFFFFFFF;
+    private int mSelectColor;
 
     public ViewPagerIndicator(Context context) {
         this(context, null);
@@ -102,7 +102,12 @@ public class ViewPagerIndicator<T> extends LinearLayout {
 
         // 获得自定义属性，tab的数量
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ViewPageIndicator);
+
         mTabVisibleCount = a.getInt(R.styleable.ViewPageIndicator_tab_count, COUNT_DEFAULT_TAB);
+
+        mNormalColor = a.getColor(R.styleable.ViewPageIndicator_normal_color, 0x77FFFFFF);
+        mSelectColor = a.getColor(R.styleable.ViewPageIndicator_select_color, 0xFFFFFFFF);
+
         if (mTabVisibleCount < 0) {
             mTabVisibleCount = COUNT_DEFAULT_TAB;
         }
@@ -272,7 +277,7 @@ public class ViewPagerIndicator<T> extends LinearLayout {
     protected void highLightTextView(int position) {
         View view = getChildAt(position);
         if (view instanceof TextView) {
-            ((TextView) view).setTextColor(COLOR_TEXT_HIGH_LIGHT_COLOR);
+            ((TextView) view).setTextColor(mSelectColor);
         }
     }
 
@@ -283,7 +288,7 @@ public class ViewPagerIndicator<T> extends LinearLayout {
         for (int i = 0; i < getChildCount(); i++) {
             View view = getChildAt(i);
             if (view instanceof TextView) {
-                ((TextView) view).setTextColor(COLOR_TEXT_NORMAL);
+                ((TextView) view).setTextColor(mNormalColor);
             }
         }
     }
@@ -316,7 +321,7 @@ public class ViewPagerIndicator<T> extends LinearLayout {
         LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         lp.width = getScreenWidth() / mTabVisibleCount;
         tv.setGravity(Gravity.CENTER);
-        tv.setTextColor(COLOR_TEXT_NORMAL);
+        tv.setTextColor(mNormalColor);
         tv.setText(text);
         tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         tv.setLayoutParams(lp);

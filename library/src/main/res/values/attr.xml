@@ -73,6 +73,8 @@
 
     <declare-styleable name="ViewPageIndicator">
         <attr name="tab_count" format="integer" />
+        <attr name="select_color" format="color" />
+        <attr name="normal_color" format="color" />
     </declare-styleable>
 
 </resources>
