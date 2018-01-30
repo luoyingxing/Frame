@@ -92,6 +92,10 @@ public class ViewPagerIndicator<T> extends LinearLayout {
      * 标题选中时的颜色
      */
     private int mSelectColor;
+    /**
+     * 指示器的颜色
+     */
+    private int mIndicatorColor;
 
     public ViewPagerIndicator(Context context) {
         this(context, null);
@@ -107,6 +111,7 @@ public class ViewPagerIndicator<T> extends LinearLayout {
 
         mNormalColor = a.getColor(R.styleable.ViewPageIndicator_normal_color, 0x77FFFFFF);
         mSelectColor = a.getColor(R.styleable.ViewPageIndicator_select_color, 0xFFFFFFFF);
+        mIndicatorColor = a.getColor(R.styleable.ViewPageIndicator_indicator_color, 0xFFFFFFFF);
 
         if (mTabVisibleCount < 0) {
             mTabVisibleCount = COUNT_DEFAULT_TAB;
@@ -116,7 +121,7 @@ public class ViewPagerIndicator<T> extends LinearLayout {
         // 初始化画笔
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
-        mPaint.setColor(Color.parseColor("#ffffffff"));
+        mPaint.setColor(mIndicatorColor);
         mPaint.setStyle(Style.FILL);
         mPaint.setPathEffect(new CornerPathEffect(3));
     }
