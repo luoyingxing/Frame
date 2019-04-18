@@ -114,7 +114,7 @@ public class PictureDialog<T> extends Dialog implements ViewPager.OnPageChangeLi
             mPagerSize = mIdList.size();
         }
 
-        mTextView.setText("第1/" + mPagerSize + "张");
+        mTextView.setText("1/" + mPagerSize);
         mViewPager.addOnPageChangeListener(this);
         mAdapter = new ViewAdapter();
         mViewPager.setAdapter(mAdapter);
@@ -129,7 +129,7 @@ public class PictureDialog<T> extends Dialog implements ViewPager.OnPageChangeLi
     @Override
     public void onPageSelected(int position) {
         mCurrentPage = position;
-        mTextView.setText("第" + (position + 1) + "/" + mPagerSize + "张");
+        mTextView.setText((position + 1) + "/" + mPagerSize);
     }
 
     @Override
