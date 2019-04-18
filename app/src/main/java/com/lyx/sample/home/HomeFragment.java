@@ -1,5 +1,6 @@
 package com.lyx.sample.home;
 
+import android.content.Intent;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import com.lyx.frame.annotation.Id;
 import com.lyx.frame.slide.SlideView;
 import com.lyx.frame.widget.picture.PictureDialog;
 import com.lyx.sample.R;
+import com.lyx.sample.TestActivity;
 import com.lyx.sample.entity.Image;
 import com.lyx.sample.entity.SlideInfo;
 import com.lyx.sample.frame.BaseFragment;
@@ -129,6 +131,7 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onItemClick(ViewHolder holder, Image item, int position) {
                 Toast.makeText(getContext(), "第" + position + "张", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getBase(), TestActivity.class));
             }
 
             @Override
