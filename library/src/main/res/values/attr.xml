@@ -10,6 +10,7 @@
         <attr name="placeHolderImage" format="reference" />
         <attr name="textBackground" format="color" />
         <attr name="textColor" />
+        <attr name="textSize" />
     </declare-styleable>
 
     <declare-styleable name="RefreshLayout">
@@ -56,7 +57,7 @@
     </declare-styleable>
 
     <declare-styleable name="TimeAxisView">
-        <attr name="textSize" format="float" />
+        <attr name="textSize" />
         <attr name="count" format="integer" />
         <attr name="radius" format="integer" />
         <attr name="circlePadding" format="integer" />
@@ -79,7 +80,9 @@
     </declare-styleable>
 
     <declare-styleable name="TabIndicatorView">
-        <attr name="cache" format="integer" />
+        <attr name="visibleCount" format="integer" />
+        <attr name="textSize" />
+        <attr name="textColor" />
     </declare-styleable>
 
 </resources>

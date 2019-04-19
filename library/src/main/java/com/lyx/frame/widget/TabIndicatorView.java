@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.Rect;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -14,6 +15,7 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.lyx.frame.R;
 
@@ -26,7 +28,7 @@ import java.util.List;
  * <p/>
  * Created by luoyingxing on 2019/4/18.
  */
-public class TabIndicatorView extends View {
+public class TabIndicatorView<T> extends View {
     private static final String TAG = "TabIndicatorView";
 
     public TabIndicatorView(Context context) {
@@ -46,13 +48,29 @@ public class TabIndicatorView extends View {
 
     private Paint mPaint;
 
-    private int visibleCount = 4;
+    private int mTextColor;
 
+    private float mTextSize;
+
+    /**
+     * 可见的tab数量
+     */
+    private int visibleCount;
+    /**
+     * 屏幕宽度
+     */
+    private int screenWidth;
+    /**
+     * 每个tab的宽度
+     */
     private int perWidth;
 
     private void init(Context context, AttributeSet attrs) {
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.TabIndicatorView, 0, 0);
 
+        mTextSize = array.getFloat(R.styleable.TabIndicatorView_textSize, 15);
+        mTextColor = array.getColor(R.styleable.TabIndicatorView_textColor, 0xFF666666);
+        visibleCount = array.getInteger(R.styleable.TabIndicatorView_visibleCount, 4);
 
         array.recycle();
 
@@ -60,6 +78,13 @@ public class TabIndicatorView extends View {
         mPaint.setAntiAlias(true);
 
         list = new ArrayList<>();
+
+        WindowManager manager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        if (null != manager) {
+            DisplayMetrics metrics = new DisplayMetrics();
+            manager.getDefaultDisplay().getMetrics(metrics);
+            screenWidth = metrics.widthPixels;
+        }
     }
 
     @Override
@@ -69,9 +94,13 @@ public class TabIndicatorView extends View {
         int height = getDefaultSize(getSuggestedMinimumHeight(), heightMeasureSpec);
 
         perWidth = width / visibleCount;
-        Log.w(TAG, getScreenWidth() + "   width: " + width + "   perWidth:  " + perWidth);
 
-        setMeasuredDimension(width, height);
+        //实际上View的宽度
+        int w = perWidth * list.size();
+
+        Log.w(TAG, "w：" + w + "   width: " + width + "  perWidth: " + perWidth);
+
+        setMeasuredDimension(w > width ? w : width, height);
     }
 
     public static int getDefaultSize(int size, int measureSpec) {
@@ -91,14 +120,10 @@ public class TabIndicatorView extends View {
         return result;
     }
 
-    private List<String> list;
+    private List<T> list;
 
-    public void updateList() {
-        list.addAll(Arrays.asList("人民1", "新华2", "央视3", "国际4", "在线5", "中国6", "日报7", "最后8"));
-
-        int w = perWidth * list.size();
-
-        setMeasuredDimension(w, getMeasuredHeight());
+    public void updateList(List<T> l) {
+        list = l;
 
         invalidate();
     }
@@ -107,81 +132,145 @@ public class TabIndicatorView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        float f = mPaint.getTextSize(); //12.0  默认字体大小
-
         int width = getMeasuredWidth();
         int height = getMeasuredHeight();
 
-        mPaint.setTextSize(50);
-        mPaint.setColor(Color.RED);
+        Log.w(TAG, "onDraw() " + width + " x " + height);
+
+        int textSize = (int) (mTextSize * getResources().getDisplayMetrics().density);
+        mPaint.setTextSize(textSize);
+        mPaint.setColor(mTextColor);
 
         for (int i = 0; i < list.size(); i++) {
-            String s = list.get(i);
+            String text = "";
+            if (null != mOnItemClickListener) {
+                text = mOnItemClickListener.getText(i);
+            }
 
-            float w = mPaint.measureText(s);
+            float w = mPaint.measureText(text);
             Paint.FontMetrics sF = mPaint.getFontMetrics();
             float h = (float) (Math.ceil(sF.descent - sF.top) + 2);
 
             float startX = perWidth * i + (perWidth - w) / 2;
             float startY = height - (height - h) * 2 / 3;
 
-            canvas.drawText(s, startX, startY, mPaint);
+            canvas.drawText(text, startX, startY, mPaint);
+        }
 
+        //draw tab arrow
+        if (list.size() > 0) {
+            int w = perWidth / 4;
+            int h = w / 4;
 
+            mPaint.setColor(Color.WHITE);
+
+            float x1 = perWidth * mSelectIndex + (perWidth - w) / 2;
+            float y1 = height;
+            float x2 = x1 + w;
+            float y2 = height;
+            float x3 = x1 + w / 2;
+            float y3 = height - h;
+
+            Path path = new Path();
+            path.moveTo(x1, y1);
+            path.lineTo(x2, y2);
+            path.lineTo(x3, y3);
+            path.close();
+            canvas.drawPath(path, mPaint);
         }
     }
 
-    private int downX, upX;
-    private boolean moving;
+    /**
+     * 记录第一次点击后的X坐标值
+     */
+    private int downX;
+    /**
+     * 记录上一次移动后的X坐标值
+     */
+    private int lastX;
+    /**
+     * 记录释放手指后的X坐标值
+     */
+    private int upX;
+    /**
+     * 记录X轴的总偏移量
+     */
+    private int scrollX;
+    /**
+     * 选中的下标
+     */
+    private int mSelectIndex;
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 downX = (int) event.getX();
+                Log.d(TAG, "downX: " + downX);
 
-                Log.w(TAG, "downX: " + downX);
+                lastX = downX;
                 break;
             case MotionEvent.ACTION_MOVE:
                 int moveX = (int) event.getX();
 
-                Log.d(TAG, "move: " + (downX - moveX));
+                scrollX += lastX - moveX;
 
+                Log.d(TAG, getWidth() + "   " + getMeasuredWidth() + "    " + screenWidth);
 
-                scrollTo(downX - moveX, 0);
+                if (scrollX < 0) {
+                    scrollX = 0;
+                } else if (scrollX > Math.abs(getMeasuredWidth() - screenWidth)) {
+                    scrollX = Math.abs(getMeasuredWidth() - screenWidth);
+                }
 
-//                Rect rect = new Rect();
-//                getGlobalVisibleRect(rect);
-//                Log.v(TAG, rect.left + " , " + rect.top + " , " + rect.right + " , " + rect.bottom);
+                scrollTo(scrollX, 0);
 
-
-                moving = true;
+                lastX = moveX;
                 break;
             case MotionEvent.ACTION_UP:
                 upX = (int) event.getX();
+                Log.d(TAG, "upX: " + upX);
 
-//                if (moving) {
-//                    moving = false;
-//
-//                    move = upX - downX;
-//                    Log.i(TAG, "===== move: " + move);
-//                }
+                if (Math.abs(upX - downX) < 5) {
+                    //click
+                    click(upX);
+                } else {
+                    //move
+                }
 
-                Log.w(TAG, "upX: " + upX);
                 break;
         }
 
         return true;
     }
 
-    private int getScreenWidth() {
-        WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
-        DisplayMetrics outMetrics = new DisplayMetrics();
-        if (null != wm) {
-            wm.getDefaultDisplay().getMetrics(outMetrics);
+    private void click(int clickX) {
+        Log.w(TAG, getScrollX() + " 单击了 " + clickX + "   " + perWidth);
+        int p = ((getScrollX() + clickX) / perWidth);
+        mSelectIndex = p;
+
+        Log.i(TAG, "p " + p);
+        //1.纠正布局
+
+        invalidate();
+
+        //2.触发点击事件
+        if (null != mOnItemClickListener && list.size() > 0) {
+            if (p <= list.size() - 1) {
+                mOnItemClickListener.onClick(p, list.get(p));
+            }
         }
-        return outMetrics.widthPixels;
     }
 
+    private OnItemClickListener<T> mOnItemClickListener;
 
+    public void setOnItemClickListener(OnItemClickListener<T> listener) {
+        mOnItemClickListener = listener;
+    }
+
+    public interface OnItemClickListener<T> {
+        void onClick(int position, T obj);
+
+        String getText(int position);
+    }
 }

@@ -4,15 +4,19 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Toast;
 
 import com.lyx.frame.widget.TabIndicatorView;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * <p/>
  * Created by luoyingxing on 2019/4/18.
  */
 public class TestActivity extends AppCompatActivity {
-    private TabIndicatorView tabIndicatorView;
+    private TabIndicatorView<String> tabIndicatorView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,10 +46,24 @@ public class TestActivity extends AppCompatActivity {
     }
 
     int i = 0;
+    private List<String> list;
 
     @Override
     protected void onResume() {
         super.onResume();
-        tabIndicatorView.updateList();
+        list = Arrays.asList("人民1", "新华2", "央视3", "国际4", "在线5", "中国6", "日报7", "最后8");
+        tabIndicatorView.updateList(list);
+
+        tabIndicatorView.setOnItemClickListener(new TabIndicatorView.OnItemClickListener<String>() {
+            @Override
+            public void onClick(int position, String obj) {
+                Toast.makeText(getApplicationContext(), position + "  " + obj, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public String getText(int position) {
+                return list.get(position);
+            }
+        });
     }
 }
