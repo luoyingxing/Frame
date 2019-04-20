@@ -246,18 +246,39 @@ public class TabIndicatorView<T> extends View {
 
     private void click(int clickX) {
         Log.w(TAG, getScrollX() + " 单击了 " + clickX + "   " + perWidth);
-        int p = ((getScrollX() + clickX) / perWidth);
-        mSelectIndex = p;
+        int position = ((getScrollX() + clickX) / perWidth);
+        mSelectIndex = position;
+        Log.i(TAG, "click position is " + position);
 
-        Log.i(TAG, "p " + p);
         //1.纠正布局
+        Rect rect = new Rect();
+        getLocalVisibleRect(rect);
+
+        //当前选中的标签的起始和终止X坐标值
+        int startX = perWidth * position;
+        int endX = startX + perWidth;
+
+        if (rect.left > startX) {
+            //标签在左边被隐藏了
+            int overX = rect.left - startX;
+            scrollX -= overX;
+
+            scrollTo(scrollX, 0);
+        }
+
+        if (endX > rect.right) {
+            //标签在右边被隐藏了
+            scrollX += endX - rect.right;
+
+            scrollTo(scrollX, 0);
+        }
 
         invalidate();
 
         //2.触发点击事件
         if (null != mOnItemClickListener && list.size() > 0) {
-            if (p <= list.size() - 1) {
-                mOnItemClickListener.onClick(p, list.get(p));
+            if (position <= list.size() - 1) {
+                mOnItemClickListener.onClick(position, list.get(position));
             }
         }
     }
