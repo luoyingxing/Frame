@@ -1,9 +1,9 @@
 package com.lyx.frame.widget;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
@@ -11,16 +11,13 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import com.lyx.frame.R;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -30,6 +27,39 @@ import java.util.List;
  */
 public class TabIndicatorView<T> extends View {
     private static final String TAG = "TabIndicatorView";
+
+    /**
+     * 画笔
+     */
+    private Paint mPaint;
+    /**
+     * 文字颜色
+     */
+    private int mTextColor;
+    /**
+     * 文字大小
+     */
+    private float mTextSize;
+    /**
+     * 下三角指示器的颜色
+     */
+    private int mTabColor;
+    /**
+     * 可见的tab数量
+     */
+    private int visibleCount;
+    /**
+     * 屏幕宽度
+     */
+    private int screenWidth;
+    /**
+     * 每个tab的宽度
+     */
+    private int perWidth;
+    /**
+     * 是否调试模式
+     */
+    private boolean DEBUG;
 
     public TabIndicatorView(Context context) {
         super(context);
@@ -46,30 +76,12 @@ public class TabIndicatorView<T> extends View {
         init(context, attrs);
     }
 
-    private Paint mPaint;
-
-    private int mTextColor;
-
-    private float mTextSize;
-
-    /**
-     * 可见的tab数量
-     */
-    private int visibleCount;
-    /**
-     * 屏幕宽度
-     */
-    private int screenWidth;
-    /**
-     * 每个tab的宽度
-     */
-    private int perWidth;
-
     private void init(Context context, AttributeSet attrs) {
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.TabIndicatorView, 0, 0);
 
-        mTextSize = array.getFloat(R.styleable.TabIndicatorView_textSize, 15);
+        mTextSize = array.getDimensionPixelSize(R.styleable.TabIndicatorView_textSize, 15);
         mTextColor = array.getColor(R.styleable.TabIndicatorView_textColor, 0xFF666666);
+        mTabColor = array.getColor(R.styleable.TabIndicatorView_tabColor, 0xFFFFFFFF);
         visibleCount = array.getInteger(R.styleable.TabIndicatorView_visibleCount, 4);
 
         array.recycle();
@@ -98,7 +110,9 @@ public class TabIndicatorView<T> extends View {
         //实际上View的宽度
         int w = perWidth * list.size();
 
-        Log.w(TAG, "w：" + w + "   width: " + width + "  perWidth: " + perWidth);
+        if (DEBUG) {
+            Log.w(TAG, TAG + "的实际宽度：" + w + "   在父view里面的宽度: " + width + "  每个Tab的宽度: " + perWidth);
+        }
 
         setMeasuredDimension(w > width ? w : width, height);
     }
@@ -135,16 +149,18 @@ public class TabIndicatorView<T> extends View {
         int width = getMeasuredWidth();
         int height = getMeasuredHeight();
 
-        Log.w(TAG, "onDraw() " + width + " x " + height);
+        if (DEBUG) {
+            Log.w(TAG, "onDraw()  [" + width + " x " + height + "]");
+        }
 
-        int textSize = (int) (mTextSize * getResources().getDisplayMetrics().density);
+        int textSize = (int) mTextSize;
         mPaint.setTextSize(textSize);
         mPaint.setColor(mTextColor);
 
         for (int i = 0; i < list.size(); i++) {
             String text = "";
             if (null != mOnItemClickListener) {
-                text = mOnItemClickListener.getText(i);
+                text = mOnItemClickListener.getTabText(list.get(i));
             }
 
             float w = mPaint.measureText(text);
@@ -162,7 +178,7 @@ public class TabIndicatorView<T> extends View {
             int w = perWidth / 4;
             int h = w / 4;
 
-            mPaint.setColor(Color.WHITE);
+            mPaint.setColor(mTabColor);
 
             float x1 = perWidth * mSelectIndex + (perWidth - w) / 2;
             float y1 = height;
@@ -206,16 +222,21 @@ public class TabIndicatorView<T> extends View {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 downX = (int) event.getX();
-                Log.d(TAG, "downX: " + downX);
+
+                if (DEBUG) {
+                    Log.d(TAG, "downX: " + downX);
+                }
 
                 lastX = downX;
                 break;
             case MotionEvent.ACTION_MOVE:
                 int moveX = (int) event.getX();
 
-                scrollX += lastX - moveX;
+                if (DEBUG) {
+                    Log.d(TAG, getWidth() + "   " + getMeasuredWidth() + "    " + screenWidth);
+                }
 
-                Log.d(TAG, getWidth() + "   " + getMeasuredWidth() + "    " + screenWidth);
+                scrollX += lastX - moveX;
 
                 if (scrollX < 0) {
                     scrollX = 0;
@@ -229,13 +250,20 @@ public class TabIndicatorView<T> extends View {
                 break;
             case MotionEvent.ACTION_UP:
                 upX = (int) event.getX();
-                Log.d(TAG, "upX: " + upX);
+
+                if (DEBUG) {
+                    Log.d(TAG, "upX: " + upX);
+                }
 
                 if (Math.abs(upX - downX) < 5) {
                     //click
                     click(upX);
                 } else {
                     //move
+                    int move = downX - upX;
+
+                    //make a animation to show scrolling
+                    animationScroll(move);
                 }
 
                 break;
@@ -245,10 +273,16 @@ public class TabIndicatorView<T> extends View {
     }
 
     private void click(int clickX) {
-        Log.w(TAG, getScrollX() + " 单击了 " + clickX + "   " + perWidth);
+        if (DEBUG) {
+            Log.w(TAG, getScrollX() + " 单击了 " + clickX + "   " + perWidth);
+        }
+
         int position = ((getScrollX() + clickX) / perWidth);
         mSelectIndex = position;
-        Log.i(TAG, "click position is " + position);
+
+        if (DEBUG) {
+            Log.i(TAG, "onClick position is " + position);
+        }
 
         //1.纠正布局
         Rect rect = new Rect();
@@ -283,6 +317,34 @@ public class TabIndicatorView<T> extends View {
         }
     }
 
+    /**
+     * 滑动完成后根据手指移动的距离大小进行后摇滚动
+     * move / 2.0f  和 value / 2  均为减小后摇滚动系数到正常水平
+     *
+     * @param move 手指按下和松开过程中总的距离
+     */
+    private void animationScroll(int move) {
+        ValueAnimator anim = ValueAnimator.ofFloat(move / 2.0f, 0);
+        anim.setDuration(260L).start(); //260L为动画持续时间
+        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float value = (float) animation.getAnimatedValue();
+
+                scrollX += value / 2;
+                if (scrollX < 0) {
+                    scrollX = 0;
+                    animation.cancel();
+                } else if (scrollX > Math.abs(getMeasuredWidth() - screenWidth)) {
+                    scrollX = Math.abs(getMeasuredWidth() - screenWidth);
+                    animation.cancel();
+                }
+
+                scrollTo(scrollX, 0);
+            }
+        });
+    }
+
     private OnItemClickListener<T> mOnItemClickListener;
 
     public void setOnItemClickListener(OnItemClickListener<T> listener) {
@@ -292,6 +354,6 @@ public class TabIndicatorView<T> extends View {
     public interface OnItemClickListener<T> {
         void onClick(int position, T obj);
 
-        String getText(int position);
+        String getTabText(T obj);
     }
 }

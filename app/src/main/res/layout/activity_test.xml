@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -8,18 +9,10 @@
         android:id="@+id/tab_view"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/sample_green" />
-
-    <Button
-        android:id="@+id/button"
-        android:text="test1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <Button
-        android:id="@+id/button1"
-        android:text="test2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:background="@color/colorPrimary"
+        app:tabColor="@color/white"
+        app:textColor="@color/white"
+        app:textSize="15sp"
+        app:visibleCount="5" />
 
 </LinearLayout>
