@@ -45,7 +45,7 @@ publish {
     def groupProjectID = 'com.lyx.frame'
     def artifactProjectID = 'library'
     // 版本号，每次更新是只需要更改版本号即可
-    def publishVersionID = '1.1.0'
+    def publishVersionID = '1.1.1'
 
     userOrg = 'luoyingxing'
     repoName = 'library'
