@@ -41,3 +41,6 @@ frame
 
 - 1.1.1
   增加了TabIndicatorView组件。
+  
+- 1.1.2
+  完善了recycler包。

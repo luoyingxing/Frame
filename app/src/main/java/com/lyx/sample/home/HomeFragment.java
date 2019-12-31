@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -127,15 +128,18 @@ public class HomeFragment extends BaseFragment {
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
 
-        mAdapter.setOnItemClickListener(new MultiAdapter.OnItemClickListeners<Image>() {
+        mAdapter.setOnItemClickListener(new MultiAdapter.OnItemClickListener<Image>() {
             @Override
             public void onItemClick(ViewHolder holder, Image item, int position) {
                 Toast.makeText(getContext(), "第" + position + "张", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(getBase(), TestActivity.class));
             }
+        });
 
+        mAdapter.setOnLongItemClickListener(new MultiAdapter.OnLongItemClickListener<Image>() {
             @Override
-            public void onItemLongClick(ViewHolder holder, Image item, int position) {
+            public void onLongItemClick(ViewHolder holder, Image item, int position) {
+                Snackbar.make(getView(), "第" + position + "张", Snackbar.LENGTH_SHORT).show();
             }
         });
 

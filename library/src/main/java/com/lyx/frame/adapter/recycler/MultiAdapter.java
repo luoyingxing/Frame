@@ -22,8 +22,9 @@ public class MultiAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
     private Context mContext;
     private List<T> mList;
     private int mPosition;
-    private OnItemClickListeners<T> mItemClickListener;
-    private ProxyManager mProxyManager;
+    private OnItemClickListener<T> mItemClickListener;
+    private OnLongItemClickListener<T> mOnLongItemClickListener;
+    private ProxyManager<T> mProxyManager;
 
     public void add(T item) {
         mList.add(getItemCount(), item);
@@ -31,8 +32,10 @@ public class MultiAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
     }
 
     public void addAll(List<T> list) {
+        int oldSize = mList.size();
+        int newSize = list.size();
         mList.addAll(list);
-        notifyDataSetChanged();
+        notifyItemRangeInserted(oldSize, newSize);
     }
 
     public void remove(int position) {
@@ -41,14 +44,20 @@ public class MultiAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
     }
 
     public void clear() {
+        int size = mList.size();
         mList.clear();
-        notifyDataSetChanged();
+        notifyItemMoved(0, size);
+    }
+
+    public void changed(T item, int position) {
+        mList.set(position, item);
+        notifyItemChanged(position);
     }
 
     public MultiAdapter(Context context, List<T> list) {
         mContext = context;
         mList = list == null ? new ArrayList<T>() : list;
-        mProxyManager = new ProxyManager();
+        mProxyManager = new ProxyManager<>();
     }
 
     public MultiAdapter addProxy(Proxy<T> delegate) {
@@ -77,17 +86,20 @@ public class MultiAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
     private void bindItem(final ViewHolder holder, final int position) {
         mProxyManager.convert(holder, mList.get(position), position);
 
-        if (null != mItemClickListener){
+        if (null != mItemClickListener) {
             holder.getConvertView().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     mItemClickListener.onItemClick(holder, mList.get(position), position);
                 }
             });
+        }
+
+        if (null != mOnLongItemClickListener) {
             holder.getConvertView().setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    mItemClickListener.onItemLongClick(holder, mList.get(position), position);
+                    mOnLongItemClickListener.onLongItemClick(holder, mList.get(position), position);
                     return true;
                 }
             });
@@ -106,8 +118,7 @@ public class MultiAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
     public int getItemViewType(int position) {
         mPosition = position;
         if (useItemViewProxyManager()) {
-            int viewType = mProxyManager.getItemViewType(mList.get(position), position);
-            return viewType;
+            return mProxyManager.getItemViewType(mList.get(position), position);
         }
         return super.getItemViewType(position);
     }
@@ -124,7 +135,7 @@ public class MultiAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
         super.onViewAttachedToWindow(holder);
         if (isFooterView(holder.getLayoutPosition())) {
             ViewGroup.LayoutParams lp = holder.itemView.getLayoutParams();
-            if (lp != null && lp instanceof StaggeredGridLayoutManager.LayoutParams) {
+            if (lp instanceof StaggeredGridLayoutManager.LayoutParams) {
                 StaggeredGridLayoutManager.LayoutParams p = (StaggeredGridLayoutManager.LayoutParams) lp;
                 p.setFullSpan(true);
             }
@@ -153,14 +164,19 @@ public class MultiAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
         return position >= getItemCount() - 1;
     }
 
-    public void setOnItemClickListener(OnItemClickListeners<T> itemClickListener) {
-        mItemClickListener = itemClickListener;
+    public void setOnItemClickListener(OnItemClickListener<T> listener) {
+        this.mItemClickListener = listener;
     }
 
-    public interface OnItemClickListeners<T> {
+    public void setOnLongItemClickListener(OnLongItemClickListener<T> listener) {
+        this.mOnLongItemClickListener = listener;
+    }
+
+    public interface OnItemClickListener<T> {
         void onItemClick(ViewHolder holder, T item, int position);
-
-        void onItemLongClick(ViewHolder holder, T item, int position);
     }
 
+    public interface OnLongItemClickListener<T> {
+        void onLongItemClick(ViewHolder holder, T item, int position);
+    }
 }

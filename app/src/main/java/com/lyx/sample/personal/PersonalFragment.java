@@ -119,14 +119,10 @@ public class PersonalFragment extends BaseFragment {
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
 
-        mAdapter.setOnItemClickListener(new MultiAdapter.OnItemClickListeners<Image>() {
+        mAdapter.setOnItemClickListener(new MultiAdapter.OnItemClickListener<Image>() {
             @Override
             public void onItemClick(ViewHolder holder, Image item, int position) {
                 Toast.makeText(getContext(), "第" + position + "张", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onItemLongClick(ViewHolder holder, Image item, int position) {
             }
         });
 
