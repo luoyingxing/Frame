@@ -47,3 +47,7 @@ frame
   
 - 1.1.3
   修复了recycler包下清空数据的操作。
+  
+- 1.1.4
+  TabIndicatorView增加了textCheckedColor属性可以设置选中和未选中的文字颜色。
+  

@@ -82,6 +82,7 @@
     <declare-styleable name="TabIndicatorView">
         <attr name="visibleCount" format="integer" />
         <attr name="tabColor" format="color" />
+        <attr name="textCheckedColor" format="color" />
         <attr name="textSize" />
         <attr name="textColor" />
     </declare-styleable>

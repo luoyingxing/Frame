@@ -37,6 +37,10 @@ public class TabIndicatorView<T> extends View {
      */
     private int mTextColor;
     /**
+     * 选中的文字颜色
+     */
+    private int mTextCheckedColor;
+    /**
      * 文字大小
      */
     private float mTextSize;
@@ -80,6 +84,7 @@ public class TabIndicatorView<T> extends View {
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.TabIndicatorView, 0, 0);
 
         mTextSize = array.getDimensionPixelSize(R.styleable.TabIndicatorView_textSize, 15);
+        mTextCheckedColor = array.getColor(R.styleable.TabIndicatorView_textCheckedColor, 0xFF666666);
         mTextColor = array.getColor(R.styleable.TabIndicatorView_textColor, 0xFF666666);
         mTabColor = array.getColor(R.styleable.TabIndicatorView_tabColor, 0xFFFFFFFF);
         visibleCount = array.getInteger(R.styleable.TabIndicatorView_visibleCount, 4);
@@ -155,9 +160,14 @@ public class TabIndicatorView<T> extends View {
 
         int textSize = (int) mTextSize;
         mPaint.setTextSize(textSize);
-        mPaint.setColor(mTextColor);
 
         for (int i = 0; i < list.size(); i++) {
+            if (i == mSelectIndex) {
+                mPaint.setColor(mTextCheckedColor);
+            } else {
+                mPaint.setColor(mTextColor);
+            }
+
             String text = "";
             if (null != mOnItemClickListener) {
                 text = mOnItemClickListener.getTabText(list.get(i));
