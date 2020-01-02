@@ -46,7 +46,7 @@ public class MultiAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
     public void clear() {
         int size = mList.size();
         mList.clear();
-        notifyItemMoved(0, size);
+        notifyItemRangeRemoved(0, size);
     }
 
     public void changed(T item, int position) {

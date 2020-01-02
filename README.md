@@ -44,3 +44,6 @@ frame
   
 - 1.1.2
   完善了recycler包。
+  
+- 1.1.3
+  修复了recycler包下清空数据的操作。
