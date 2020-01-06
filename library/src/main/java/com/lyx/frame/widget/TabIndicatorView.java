@@ -147,6 +147,12 @@ public class TabIndicatorView<T> extends View {
         invalidate();
     }
 
+    public void setChecked(int position) {
+        mSelectIndex = position;
+
+        invalidate();
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);

@@ -51,3 +51,6 @@ frame
 - 1.1.4
   TabIndicatorView增加了textCheckedColor属性可以设置选中和未选中的文字颜色。
   
+- 1.1.5
+  TabIndicatorView增加了setChecked(int pos)方法显示被选位置。
+  
