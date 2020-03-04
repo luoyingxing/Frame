@@ -85,6 +85,10 @@
         <attr name="textCheckedColor" format="color" />
         <attr name="textSize" />
         <attr name="textColor" />
+        <attr name="tabStyle">
+            <flag name="line" value="0" />
+            <flag name="triangle" value="1" />
+        </attr>
     </declare-styleable>
 
 </resources>

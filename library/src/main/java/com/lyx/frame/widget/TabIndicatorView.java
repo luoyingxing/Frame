@@ -28,6 +28,9 @@ import java.util.List;
 public class TabIndicatorView<T> extends View {
     private static final String TAG = "TabIndicatorView";
 
+    public static final int STYLE_LINE = 0;
+    public static final int STYLE_TRIANGLE = 1;
+
     /**
      * 画笔
      */
@@ -45,7 +48,7 @@ public class TabIndicatorView<T> extends View {
      */
     private float mTextSize;
     /**
-     * 下三角指示器的颜色
+     * 指示器的颜色
      */
     private int mTabColor;
     /**
@@ -64,6 +67,10 @@ public class TabIndicatorView<T> extends View {
      * 是否调试模式
      */
     private boolean DEBUG;
+    /**
+     * 指示器的样式类型
+     */
+    private int mTabStyle;
 
     public TabIndicatorView(Context context) {
         super(context);
@@ -88,6 +95,7 @@ public class TabIndicatorView<T> extends View {
         mTextColor = array.getColor(R.styleable.TabIndicatorView_textColor, 0xFF666666);
         mTabColor = array.getColor(R.styleable.TabIndicatorView_tabColor, 0xFFFFFFFF);
         visibleCount = array.getInteger(R.styleable.TabIndicatorView_visibleCount, 4);
+        mTabStyle = array.getInt(R.styleable.TabIndicatorView_tabStyle, 0);
 
         array.recycle();
 
@@ -191,24 +199,39 @@ public class TabIndicatorView<T> extends View {
 
         //draw tab arrow
         if (list.size() > 0) {
-            int w = perWidth / 4;
-            int h = w / 4;
+            if (mTabStyle == STYLE_LINE) {
+                int w = perWidth * 2 / 3;
+                int h = 6;
 
-            mPaint.setColor(mTabColor);
+                mPaint.setColor(mTabColor);
 
-            float x1 = perWidth * mSelectIndex + (perWidth - w) / 2;
-            float y1 = height;
-            float x2 = x1 + w;
-            float y2 = height;
-            float x3 = x1 + w / 2;
-            float y3 = height - h;
+                float x1 = perWidth * mSelectIndex + (perWidth - w) / 2;
+                float y1 = height - h;
+                float x2 = x1 + w;
+                float y2 = height - h;
 
-            Path path = new Path();
-            path.moveTo(x1, y1);
-            path.lineTo(x2, y2);
-            path.lineTo(x3, y3);
-            path.close();
-            canvas.drawPath(path, mPaint);
+                mPaint.setStrokeWidth(h);
+                canvas.drawLine(x1, y1, x2, y2, mPaint);
+            } else if (mTabStyle == STYLE_TRIANGLE) {
+                int w = perWidth / 4;
+                int h = w / 4;
+
+                mPaint.setColor(mTabColor);
+
+                float x1 = perWidth * mSelectIndex + (perWidth - w) / 2;
+                float y1 = height;
+                float x2 = x1 + w;
+                float y2 = height;
+                float x3 = x1 + w / 2;
+                float y3 = height - h;
+
+                Path path = new Path();
+                path.moveTo(x1, y1);
+                path.lineTo(x2, y2);
+                path.lineTo(x3, y3);
+                path.close();
+                canvas.drawPath(path, mPaint);
+            }
         }
     }
 

@@ -54,3 +54,6 @@ frame
 - 1.1.5
   TabIndicatorView增加了setChecked(int pos)方法显示被选位置。
   
+- 1.1.6
+  TabIndicatorView增加了tabStyle属性，可以设置指示器的样式。
+  
