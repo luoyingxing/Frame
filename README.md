@@ -58,5 +58,5 @@ frame
   TabIndicatorView增加了tabStyle属性，可以设置指示器的样式。
   
 - 1.1.7
-  MultiAdapter增加了insert()方法。
+  MultiAdapter增加了insert()和getDataSource()方法。
   

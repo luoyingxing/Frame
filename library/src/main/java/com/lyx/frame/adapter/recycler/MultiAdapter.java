@@ -36,6 +36,10 @@ public class MultiAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
         notifyItemInserted(getItemCount());
     }
 
+    public List<T> getDataSource() {
+        return mList;
+    }
+
     public void addAll(List<T> list) {
         int oldSize = mList.size();
         int newSize = list.size();
