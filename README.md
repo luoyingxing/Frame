@@ -60,3 +60,6 @@ frame
 - 1.1.7
   MultiAdapter增加了insert()和getDataSource()方法。
   
+- 1.1.8
+  PictureDialog增加了下载按钮的监听事件回调.
+  

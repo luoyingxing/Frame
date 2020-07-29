@@ -50,8 +50,12 @@ public class HomeFragment extends BaseFragment {
         mSlideView.setOnItemClickListener(new SlideView.OnItemClickListener<SlideInfo>() {
             @Override
             public void onItemClick(SlideInfo info, int position) {
-                new PictureDialog<SlideInfo>(getContext())
-                        .setImageUrl(SlideInfo.getDefaultList(), PictureDialog.REMOTE)
+                new PictureDialog<SlideInfo>(getContext(), new PictureDialog.OnSaveClickListener() {
+                    @Override
+                    public void save(int position) {
+                        Toast.makeText(getContext(), "下载第" + position + "张", Toast.LENGTH_SHORT).show();
+                    }
+                }).setImageUrl(SlideInfo.getDefaultList(), PictureDialog.REMOTE)
                         .setPalaceHolderImage(R.mipmap.image_empty_fresco)
                         .show();
             }

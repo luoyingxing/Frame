@@ -45,6 +45,11 @@ public class PictureDialog<T> extends Dialog implements ViewPager.OnPageChangeLi
         this(context, R.style.PictureDialog);
     }
 
+    public PictureDialog(Context context, OnSaveClickListener listener) {
+        this(context, R.style.PictureDialog);
+        this.mOnSaveClickListener = listener;
+    }
+
     public PictureDialog(Context context, int theme) {
         super(context, R.style.PictureDialog);
         this.mContext = context;
@@ -85,8 +90,16 @@ public class PictureDialog<T> extends Dialog implements ViewPager.OnPageChangeLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View root = View.inflate(mContext, R.layout.layout_picture_dialog, null);
-        mViewPager = (DialogViewPage) root.findViewById(R.id.pv_picture_contentPager);
-        mTextView = (TextView) root.findViewById(R.id.tv_picture_dialog_tip);
+        mViewPager = root.findViewById(R.id.pv_picture_contentPager);
+        mTextView = root.findViewById(R.id.tv_picture_dialog_tip);
+        root.findViewById(R.id.iv_picture_dialog_download).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (null != mOnSaveClickListener) {
+                    mOnSaveClickListener.save(mCurrentPage);
+                }
+            }
+        });
         setContentView(root);
 
         Window window = getWindow();
@@ -96,6 +109,12 @@ public class PictureDialog<T> extends Dialog implements ViewPager.OnPageChangeLi
         lp.height = WindowManager.LayoutParams.MATCH_PARENT;
         window.setAttributes(lp);
         showViewPage();
+    }
+
+    private OnSaveClickListener mOnSaveClickListener;
+
+    public interface OnSaveClickListener {
+        void save(int position);
     }
 
     public PictureDialog showPosition(int position) {

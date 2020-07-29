@@ -12,6 +12,16 @@
         android:layout_gravity="center"
         android:layout_weight="1" />
 
+    <ImageView
+        android:id="@+id/iv_picture_dialog_download"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="end"
+        android:contentDescription="@string/app_name"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:src="@drawable/ic_picture_dialog_download" />
+
     <TextView
         android:id="@+id/tv_picture_dialog_tip"
         android:layout_width="match_parent"

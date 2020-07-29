@@ -11,6 +11,7 @@
         android:layout_height="50dp"
         android:background="@color/colorPrimary"
         app:tabColor="@color/white"
+        app:tabStyle="triangle"
         app:textColor="@color/white"
         app:textSize="15sp"
         app:visibleCount="5" />
