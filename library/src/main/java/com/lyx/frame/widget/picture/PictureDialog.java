@@ -55,6 +55,12 @@ public class PictureDialog<T> extends Dialog implements ViewPager.OnPageChangeLi
         this.mContext = context;
     }
 
+    public PictureDialog(Context context, int theme, OnSaveClickListener listener) {
+        super(context, R.style.PictureDialog);
+        this.mContext = context;
+        this.mOnSaveClickListener = listener;
+    }
+
     /**
      * 泛型对象的图片地址必须用{@ImageUrl}标注
      *
